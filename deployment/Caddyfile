@@ -1,0 +1,43 @@
+{
+	email {$TLS_EMAIL}
+}
+
+{$APP_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		# Cabeceras de seguridad perimetral (HSTS / Anti-Clickjacking / Content Sniffing)
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(self), geolocation=(self), microphone=()"
+	}
+
+	request_body {
+		max_size 5MB
+	}
+
+	reverse_proxy bitacora:4173
+}
+
+{$GPS_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+	}
+
+	# Restricción de seguridad: únicamente permitir endpoints de telemetría móvil
+	@allowedMobile path /api/socket /api/positions /api/session
+	handle @allowedMobile {
+		reverse_proxy traccar:8082
+	}
+
+	# Bloquear acceso externo a consola de administración web de Traccar
+	handle {
+		respond "Acceso restringido a la red interna corporativa" 403
+	}
+}

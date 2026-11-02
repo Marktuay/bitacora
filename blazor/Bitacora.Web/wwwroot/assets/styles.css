@@ -1,0 +1,355 @@
+*{box-sizing:border-box} :root{--ink:#17212b;--muted:#667085;--line:#dce3ea;--bg:#f4f7fa;--card:#fff;--brand:#123f62;--accent:#1769aa;--ok:#0f7b52;--warn:#a15c00;--bad:#b42318}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}a{color:inherit;text-decoration:none}.shell{max-width:1180px;margin:auto;padding:20px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#123f62,#1f7fb6);display:grid;place-items:center;color:white;font-weight:800;letter-spacing:.5px}.brand h1{font-size:19px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.nav{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer;background:#e8eef4;color:#17324a;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn.primary{background:var(--brand);color:white}.btn.ok{background:var(--ok);color:white}.btn.ghost{background:white;border:1px solid var(--line)}.btn:disabled{opacity:.55;cursor:not-allowed}.hero{background:linear-gradient(135deg,#103d5f,#1d6e9f);color:white;border-radius:20px;padding:28px;margin-bottom:20px}.hero h2{margin:0 0 8px;font-size:30px}.hero p{margin:0;max-width:760px;color:#dcebf5;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 18px rgba(22,47,68,.05)}.card h3{margin:0 0 6px}.card p{color:var(--muted);line-height:1.45}.company-card{display:flex;flex-direction:column;min-height:120px}.company-card .btn{margin-top:auto}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:18px 0 10px}.section-title h2{margin:0}.section-title small{color:var(--muted)}.form-card{max-width:900px;margin:auto}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:750;color:#344054}input,select,textarea{width:100%;border:1px solid #cfd8e3;background:white;border-radius:10px;padding:11px 12px;font:inherit;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:#4b91bf;box-shadow:0 0 0 3px rgba(23,105,170,.10)}textarea{min-height:86px;resize:vertical}.hint{font-size:12px;color:var(--muted)}.warning{padding:10px 12px;border-radius:10px;background:#fff4e5;color:#8a4b00;font-size:13px}.success{padding:12px;border-radius:10px;background:#e9f7f0;color:#08633f}.status{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}.status.pending{background:#fff4e5;color:#8a4b00}.status.approved{background:#e8f7ef;color:#096541}.status.review{background:#fdecec;color:#a1231b}.summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:14px 0}.metric{background:white;border:1px solid var(--line);border-radius:14px;padding:15px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:23px;display:block;margin-top:4px}.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white}table{border-collapse:collapse;width:100%;min-width:1150px}th,td{padding:10px 11px;border-bottom:1px solid #e6ebf0;text-align:left;font-size:12.5px;vertical-align:top}th{position:sticky;top:0;background:#edf2f6;color:#344054;z-index:1}tr:hover td{background:#fafcff}.nowrap{white-space:nowrap}.actions{display:flex;gap:6px}.empty{text-align:center;padding:34px;color:var(--muted)}.toast{position:fixed;right:18px;bottom:18px;max-width:360px;background:#17212b;color:white;padding:12px 15px;border-radius:11px;opacity:0;transform:translateY(10px);transition:.2s;z-index:1000;box-shadow:0 10px 30px rgba(0,0,0,.2)}.toast.show{opacity:1;transform:none}.toast.bad{background:#9b1c1c}.toast.warn{background:#92540b}.connection{font-size:12px;border:1px solid var(--line);background:white;border-radius:999px;padding:7px 10px;color:var(--muted)}.connection.live{color:#0b6845;border-color:#b8dfcf;background:#f0fbf6}.print-header{display:none}.foot{color:var(--muted);font-size:12px;margin:18px 0 4px;text-align:center}@media(max-width:800px){.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.filters{grid-template-columns:1fr 1fr}.filters .wide{grid-column:1/-1}.summary-grid{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start;flex-direction:column}.hero h2{font-size:25px}.shell{padding:14px}}@media print{body{background:white}.no-print,.topbar,.filters,.summary-grid,.actions,.foot{display:none!important}.shell{max-width:none;padding:0}.card{border:none;box-shadow:none;padding:0}.print-header{display:block;margin-bottom:16px}.print-header h1{font-size:18px;margin:0}.print-header p{font-size:11px}.table-wrap{border:none;overflow:visible}table{min-width:0;font-size:9px}th,td{font-size:9px;padding:5px}.status{padding:0;background:none!important;color:black!important}}
+
+.home-title{margin:8px 0 14px}.home-title h2{font-size:24px}.photo-field{padding:12px;border:1px dashed #b8c6d3;border-radius:12px;background:#f9fbfd}.photo-field input[type=file]{padding:9px;background:white}.photo-field label:before{content:'📷 ';}
+.report-controls{margin-bottom:16px}.reports-filters{grid-template-columns:1.2fr 2fr 1fr 1fr 1fr auto}.report-sheet{padding:24px}.report-title{text-align:center;margin-bottom:16px}.report-title h1{font-size:18px;margin:0 0 4px}.report-title p{font-size:12px;color:var(--muted);margin:0}.report-meta{display:grid;grid-template-columns:1fr 2fr 1fr 1fr 1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}.report-meta>div{padding:9px 10px;border-right:1px solid var(--line);min-width:0}.report-meta>div:last-child{border-right:0}.report-meta span{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:800}.report-meta strong{display:block;font-size:12px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.report-actions{display:flex;justify-content:flex-end;gap:8px;margin:10px 0}.report-table{min-width:920px}.report-table th{text-align:center}.report-table td:nth-child(n+5){text-align:center}.report-table tfoot td{background:#f5f8fa;font-weight:800}.total-label{text-align:right!important}.total-value{text-align:center!important}.report-signatures{display:grid;grid-template-columns:1fr 1fr;gap:120px;margin:62px 50px 10px}.report-signatures>div{text-align:center}.signature-line{border-top:1px solid #364152;margin-bottom:7px}.report-signatures strong,.report-signatures span{display:block;font-size:11px}.report-signatures span{margin-top:3px;color:var(--muted)}
+@media(max-width:900px){.reports-filters{grid-template-columns:1fr 1fr}.reports-filters .wide{grid-column:1/-1}.report-meta{grid-template-columns:1fr 1fr}.report-meta>div{border-bottom:1px solid var(--line)}.report-signatures{gap:30px;margin-left:10px;margin-right:10px}}
+[hidden]{display:none!important}
+.report-table th:last-child,.report-table tbody td:last-child{position:sticky;right:0;white-space:nowrap;border-left:1px solid var(--line)}
+.report-table th:last-child{z-index:2}.report-table tbody td:last-child{background:white;z-index:1}
+@media print{.report-sheet{padding:0!important}.report-title{display:block}.report-meta{grid-template-columns:1fr 2fr 1fr 1fr 1fr 1fr}.report-table{min-width:0}.report-table th,.report-table td{font-size:8px;padding:5px 4px}.report-table th:last-child,.report-table tbody td:last-child{position:static}.report-signatures{margin-top:45px;gap:90px}.report-actions{display:none!important}}
+
+.audit-table tbody td:nth-child(8),.audit-table tbody td:nth-child(9),.audit-table tbody td:nth-child(10),.audit-table thead th:nth-child(8),.audit-table thead th:nth-child(9),.audit-table thead th:nth-child(10){text-align:right;font-variant-numeric:tabular-nums}.audit-table tfoot th,.audit-table tfoot td{background:#e8f0f7;color:var(--brand);border-top:2px solid #bdcede;border-bottom:0;font-weight:800;white-space:nowrap}.audit-table tfoot th{position:static;text-align:right}.audit-table tfoot td{text-align:right;font-variant-numeric:tabular-nums}@media print{.audit-table tfoot{display:table-row-group}.audit-table tfoot th,.audit-table tfoot td{color:black}}
+
+@media print{@page{size:A4 landscape;margin:10mm}.audit-table th,.audit-table td{font-size:9px;padding:5px 4px}.audit-table .status{font-size:inherit}.audit-table .nowrap{white-space:normal}.audit-table tr{break-inside:avoid}}
+
+[data-auth-nav]:not([data-auth-ready]){visibility:hidden}
+
+.gps-coverage-warning{padding:12px 16px;border:1px solid #e1aa47;border-radius:8px;background:#fff5df;color:#713f12;font-weight:600;line-height:1.5}
+
+.audit-table th:nth-child(12),.audit-table td:nth-child(12){min-width:180px;max-width:440px;white-space:pre-wrap;overflow-wrap:anywhere}
+@media print{.audit-table th:nth-child(12),.audit-table td:nth-child(12){min-width:0;max-width:none;white-space:pre-wrap}}
+
+/* Revisión de recorridos: acciones visibles y aprobación en la misma fila. */
+.audit-table thead th:last-child,.audit-table tbody td.no-print:last-child{position:sticky;right:0;width:255px;min-width:255px;max-width:255px;border-left:1px solid var(--line);box-shadow:-4px 0 9px rgba(23,33,43,.08)}
+.audit-table thead th:last-child{background:#edf2f6;z-index:4}
+.audit-table tbody td.no-print:last-child{background:#fff;z-index:2}
+.audit-table tbody tr:hover td.no-print:last-child{background:#fafcff}
+.audit-table td.no-print:last-child .actions{display:block;min-width:0}
+.btn-compact{padding:7px 9px;border-radius:7px;font-size:12px;white-space:nowrap}
+.review-action-buttons{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.review-row-links{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;font-size:12px}
+.review-row-links a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.review-support-details{position:relative;color:var(--brand)}
+.review-support-details summary{cursor:pointer;font-weight:650}
+.review-support-items{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.review-inline-editor{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;display:grid;gap:8px;white-space:normal}
+.review-inline-editor label{display:flex;flex-direction:column;gap:4px;font-size:12px}
+.review-inline-editor select,.review-inline-editor input{padding:7px 8px;font-size:13px}
+.review-mini-summary{font-size:11px;line-height:1.5;color:#344054}
+@media(max-width:650px){.audit-table thead th:last-child,.audit-table tbody td.no-print:last-child{min-width:220px;width:220px;max-width:220px}.btn-compact{padding:7px;font-size:11px}}
+@media print{.audit-table thead th:last-child,.audit-table tbody td.no-print:last-child{position:static;min-width:0;width:auto;max-width:none;box-shadow:none;border-left:0}}
+
+/* Desplazamiento independiente para las tablas de Auditoría y Mi bitácora.
+   Mantener el desplazamiento horizontal, títulos visibles y la impresión íntegra. */
+.km-table-scroll{
+  max-height:min(66vh,680px);
+  overflow-x:auto;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+}
+.km-table-scroll .audit-table thead th{position:sticky;top:0;z-index:3}
+.km-table-scroll .audit-table thead th:last-child{z-index:5}
+@media(max-width:650px){.km-table-scroll{max-height:70vh}}
+@media screen and (max-width:650px){
+  /* Desplazar la tabla completa en el celular, incluida la columna Acción. */
+  .km-table-scroll{
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-x pan-y;
+  }
+  /* Acción deja de cubrir el resto de las columnas al desplazarse. */
+  .km-table-scroll .audit-table thead th:last-child{
+    right:auto;
+    box-shadow:none;
+  }
+  .km-table-scroll .audit-table tbody td.no-print:last-child{
+    position:static;
+    right:auto;
+    box-shadow:none;
+  }
+}
+@media print{
+  .km-table-scroll{
+    max-height:none!important;
+    overflow:visible!important;
+    overscroll-behavior:auto;
+    scrollbar-gutter:auto;
+  }
+}
+
+/* Revisión de recorridos: ambas direcciones de desplazamiento y todas las columnas en el mismo flujo. */
+@media screen{
+  .review-table-scroll{
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-x pan-y;
+  }
+  .review-table-scroll .audit-table thead th:last-child{
+    right:auto;
+    box-shadow:none;
+  }
+  .review-table-scroll .audit-table tbody td.no-print:last-child{
+    position:static;
+    right:auto;
+    box-shadow:none;
+  }
+}
+
+/* Solo Mi bitácora / Reportes: columna Acción compacta, sin reducir controles de Auditoría. */
+.report-table-wrap .audit-table thead th:last-child,
+.report-table-wrap .audit-table tbody td.no-print:last-child,
+.report-table-wrap .audit-table tfoot td.no-print:last-child{
+  width:140px;
+  min-width:140px;
+  max-width:140px;
+  padding:8px;
+}
+.report-table-wrap .audit-table .report-gps-link{
+  padding:7px 9px;
+  font-size:12px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+@media print{
+  .report-table-wrap .audit-table thead th:last-child,
+  .report-table-wrap .audit-table tbody td.no-print:last-child,
+  .report-table-wrap .audit-table tfoot td.no-print:last-child{
+    position:static;
+    width:auto;
+    min-width:0;
+    max-width:none;
+  }
+}
+
+/* Rendimiento de combustible opcional en Mi bitácora, arriba del reporte. */
+.fuel-vale-card{margin-bottom:16px}
+.fuel-vale-heading h2{font-size:17px;margin:0 0 6px}
+.fuel-vale-heading p{margin:0 0 12px;line-height:1.45}
+.fuel-optional{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:11px;color:var(--muted);vertical-align:middle;font-weight:600}
+.fuel-vale-fields{display:grid;grid-template-columns:minmax(180px,1.3fr) minmax(150px,1fr) auto;gap:12px;align-items:end}
+.fuel-vale-fields .field{min-width:0}
+.fuel-vale-fields button{min-height:42px}
+.fuel-vale-results{margin-top:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.fuel-metric{border:1px solid var(--line);border-radius:9px;padding:10px;min-width:0}
+.fuel-metric span{display:block;font-size:11px;color:var(--muted);line-height:1.3}
+.fuel-metric strong{display:block;margin-top:4px;font-size:15px;overflow-wrap:anywhere}
+.fuel-metric-highlight{background:#f1f7fa}
+@media(max-width:900px){.fuel-vale-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.fuel-vale-fields{grid-template-columns:1fr}.fuel-vale-fields button{width:100%}}
+
+/* Datos informativos del último vale: visibles en bitácora impresa. */
+.fuel-vale-fields{grid-template-columns:repeat(2,minmax(0,1fr)) auto}
+.fuel-vale-fields button{align-self:end}
+.fuel-print{margin:18px 0 8px;border:1px solid var(--line);border-radius:9px;padding:12px;break-inside:avoid;page-break-inside:avoid}
+.fuel-print h2{font-size:12px;line-height:1.3;margin:0 0 10px;color:var(--brand);text-transform:uppercase}
+.fuel-print-details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.fuel-print-cell{min-width:0;padding:5px;border-bottom:1px solid var(--line)}
+.fuel-print-cell span{display:block;font-size:10px;color:var(--muted)}
+.fuel-print-cell strong{font-size:12px;display:block;overflow-wrap:anywhere;margin-top:3px}
+.fuel-print .hint{font-size:10px;margin:10px 0 0}
+@media(max-width:900px){.fuel-vale-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fuel-vale-fields button{grid-column:1/-1}.fuel-print-details{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.fuel-vale-fields{grid-template-columns:1fr}.fuel-vale-fields button{grid-column:auto}}
+@media print{
+  .fuel-print{margin:10px 0;border:1px solid #aebdcc;padding:9px}
+  .fuel-print-details{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .fuel-print-cell{padding:4px}
+  .fuel-print-cell span{font-size:8px;color:#444}
+  .fuel-print-cell strong{font-size:9px}
+  .fuel-print h2{font-size:10px}
+}
+
+/* Nunca imprimir notas explicativas heredadas del bloque de rendimiento. */
+#fuelPrint p.hint{display:none!important}
+
+
+/* Impresión de Mi bitácora: encabezados solo al comienzo de la tabla.
+   Desactivar encabezados sticky de la vista con scroll, ya que Chrome
+   puede duplicarlos al pie de la última hoja al paginar. */
+@media print {
+  .report-table-wrap,
+  .report-table-wrap.km-table-scroll {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    max-height: none !important;
+    position: static !important;
+  }
+  .report-table-wrap .audit-table {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+  .report-table-wrap .audit-table thead {
+    display: table-row-group !important;
+  }
+  .report-table-wrap .audit-table thead tr {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .report-table-wrap .audit-table thead th,
+  .km-table-scroll.report-table-wrap .audit-table thead th {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    z-index: auto !important;
+    box-shadow: none !important;
+  }
+  .report-table-wrap .audit-table tbody tr,
+  .report-table-wrap .audit-table tfoot tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* Alineación de los botones de los paneles (PC y celular). */
+@media screen {
+  /* Navegación debajo del título, siempre iniciando desde el borde izquierdo. */
+  .topbar { flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+  .topbar .nav { width: 100%; justify-content: flex-start; align-items: center; }
+
+  /* Acciones de consulta, impresión, reportes y revisión desde la izquierda. */
+  .filters > .btn { grid-column: 1 / -1; justify-self: start; }
+  .report-actions,
+  .review-action-buttons,
+  .review-row-links,
+  .review-support-items { justify-content: flex-start; flex-wrap: wrap; }
+
+  /* El botón opcional del vale queda debajo de los campos, a la izquierda. */
+  .fuel-vale-fields > .btn { grid-column: 1 / -1; justify-self: start; }
+}
+@media screen and (max-width: 650px) {
+  .filters > .btn,
+  .fuel-vale-fields > .btn { width: auto; max-width: 100%; }
+}
+
+/* Menú de Inicio: botones alineados a la izquierda y separados por módulos. */
+@media screen {
+  .topbar .nav.nav-modules {
+    display:flex;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    align-items:flex-start;
+    justify-content:flex-start;
+    gap:14px;
+    width:100%;
+  }
+  .nav-module {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:7px;
+  }
+  .nav-module-title {
+    font-size:12px;
+    line-height:1.3;
+    font-weight:750;
+    color:var(--muted);
+    margin:0;
+  }
+  .nav-module-actions {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:flex-start;
+    gap:8px;
+    width:100%;
+    min-width:0;
+  }
+  .nav-module-actions .connection {
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+}
+
+/* Menú lateral azul, modular y desplegable, inspirado en Control OT-Web. */
+@media screen {
+  body.km-has-sidebar .shell {width:calc(100% - 250px);max-width:none;margin:0 0 0 250px;padding:22px 28px;}
+  .km-sidebar {
+    position:fixed;inset:0 auto 0 0;z-index:1101;
+    display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:flex-start;gap:0;
+    width:250px;height:100vh;height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
+    background:linear-gradient(180deg,#112a48,#21446d);color:#fff;
+    border-right:1px solid #284d75;scrollbar-width:thin;scrollbar-color:#92a9c1 transparent;
+  }
+  .km-sidebar .sidebar-brand {display:flex;align-items:center;gap:10px;min-height:74px;padding:15px 18px;color:#fff;font-size:17px;font-weight:750;border-bottom:1px solid #ffffff24;}
+  .km-sidebar .sidebar-mark {display:grid;place-items:center;flex:none;width:40px;height:40px;background:#17618f;border-radius:10px;color:#fff;font-size:14px;font-weight:800;}
+  .km-sidebar .sidebar-home-link,.km-sidebar .nav-module-title {
+    display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;
+    padding:14px 20px;background:transparent;border:0;border-bottom:1px solid #ffffff1c;
+    border-radius:0;color:#fff;font-size:13px;line-height:1.4;font-weight:750;text-align:left;cursor:pointer;
+  }
+  .km-sidebar .sidebar-home-link {justify-content:flex-start;}
+  .km-sidebar .sidebar-home-link::before {content:'⌂';margin-right:10px;font-size:22px;line-height:15px;}
+  .km-sidebar .nav-module {display:block;width:100%;margin:0;padding:0;border:0;}
+  .km-sidebar .nav-module-title {list-style:none;}
+  .km-sidebar .nav-module-title::-webkit-details-marker {display:none;}
+  .km-sidebar .nav-module-title::after {content:'›';font-size:24px;line-height:18px;font-weight:650;color:#c7d7e8;transition:transform .15s ease;}
+  .km-sidebar .nav-module[open] > .nav-module-title::after {transform:rotate(90deg);}
+  .km-sidebar .nav-module-actions {display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:0;width:100%;padding:5px 0 8px;background:#00000024;}
+  .km-sidebar .nav-module-actions .btn,.km-sidebar .sidebar-footer .btn {
+    display:flex;align-items:center;justify-content:flex-start;width:100%;max-width:none;min-height:39px;
+    padding:10px 20px 10px 31px;border:0;border-radius:0;background:transparent;color:#eef6fd;
+    font-size:12.5px;font-weight:600;line-height:1.35;text-align:left;white-space:normal;box-shadow:none;
+  }
+  .km-sidebar .sidebar-home-link:hover,.km-sidebar .nav-module-title:hover,
+  .km-sidebar .nav-module-actions .btn:hover,.km-sidebar .sidebar-footer .btn:hover {background:#ffffff20;filter:none;}
+  .km-sidebar [aria-current='page'] {background:#388fd747!important;box-shadow:inset 3px 0 #86c8ff!important;}
+  .km-sidebar a:focus-visible,.km-sidebar summary:focus-visible,.km-sidebar button:focus-visible {outline:2px solid #b6dfff;outline-offset:-3px;}
+  .km-sidebar .sidebar-footer {display:flex;flex-direction:column;align-items:stretch;gap:2px;width:100%;margin-top:auto;padding:14px 0 15px;border-top:1px solid #ffffff2b;}
+  .km-sidebar .sidebar-footer-title {margin:0 20px 5px;font-size:12px;font-weight:750;color:#caddeb;}
+  .km-sidebar .sidebar-footer .connection {display:block;width:auto;margin:3px 16px;padding:6px 0;border:0;background:transparent;color:#dbeaf8;font-size:11px;line-height:1.45;overflow-wrap:anywhere;}
+  .km-sidebar .sidebar-footer .connection.live {color:#a1eac1;}
+  .km-sidebar .sidebar-footer .btn {padding-left:20px;}
+  .km-menu-toggle,.km-sidebar-backdrop {display:none;}
+}
+@media screen and (max-width:850px) {
+  body.km-has-sidebar .shell {width:100%;max-width:none;margin:0;padding:14px;}
+  .km-sidebar {width:min(280px,86vw);transform:translateX(-102%);transition:transform .2s ease;box-shadow:8px 0 20px #00000022;}
+  body.km-menu-open .km-sidebar {transform:translateX(0);}
+  .km-menu-toggle {display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;padding:10px 14px;border:1px solid #cbd8e6;border-radius:9px;background:white;color:#143d61;font:inherit;font-size:13px;font-weight:750;cursor:pointer;}
+  .km-sidebar-backdrop {position:fixed;inset:0;z-index:1100;background:#0c1c2e80;}
+  body.km-menu-open .km-sidebar-backdrop {display:block;}
+}
+@media print {
+  .km-sidebar,.km-menu-toggle,.km-sidebar-backdrop {display:none!important;}
+  body.km-has-sidebar .shell {width:100%!important;max-width:none!important;margin:0!important;padding:0!important;}
+}
+
+
+/* Logotipo New Century: sustituye únicamente los cuadros NC, conserva el diseño previo. */
+@media screen {
+  .km-sidebar .sidebar-brand .sidebar-company-logo {
+    display:block;
+    flex:none;
+    width:96px;
+    height:51px;
+    padding:3px;
+    border-radius:6px;
+    background:white;
+    object-fit:contain;
+  }
+  .topbar .brand .mark:has(.km-company-logo) {
+    width:auto;
+    height:auto;
+    min-width:0;
+    flex:none;
+    display:block;
+    padding:3px;
+    border-radius:7px;
+    background:white;
+  }
+  .topbar .brand .km-company-logo {
+    display:block;
+    width:114px;
+    max-width:27vw;
+    height:58px;
+    object-fit:contain;
+  }
+}

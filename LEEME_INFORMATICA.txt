@@ -1,0 +1,11 @@
+BITACORA KM - ENTREGA PARA PRODUCCION DESDE CERO
+
+1. Leer docs/Bitacora_KM_Guia_Informatica.pdf.
+2. Seguir docs/INFORMATICA.md para SQL, permisos e instalacion.
+3. Produccion: Supabase propio y Traccar nuevos; cargar solo catalogos.
+4. No importar bitacoras, fotos, GPS ni activaciones del piloto.
+5. APK piloto incluido en releases/Bitacora_KM_1.2.0_piloto.apk.
+6. En los celulares solo Bitacora KM; no se requiere Traccar Client separado.
+7. Informatica debe preparar firma institucional y verificar su instalacion.
+
+La base piloto no fue modificada. No usar el ZIP Windows privado como configuracion de produccion.

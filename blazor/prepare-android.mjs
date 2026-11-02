@@ -1,0 +1,15 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url)),source=path.join(path.dirname(here),'android'),destination=path.join(here,'AndroidRuntime');
+const raw=process.argv[2] || 'https://bitacora.invalid';
+const url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||url.pathname!=='/')throw Error('Usá una dirección HTTPS principal, sin rutas ni credenciales');
+await fs.rm(destination,{recursive:true,force:true});await fs.cp(source,destination,{recursive:true,filter:p=>!p.split(path.sep).some(x=>['.gradle','build'].includes(x))});
+const store=path.join(destination,'app/src/main/java/ni/bitacorakm/app/KmStore.kt');
+if(!(await fs.readFile(store,'utf8')).includes('BuildConfig.SERVER_URL'))throw Error('Falta configuración Android del servidor');
+const gradle=path.join(destination,'app/build.gradle.kts');let config=await fs.readFile(gradle,'utf8');
+config=config.replace('defaultConfig { applicationId =',`defaultConfig { buildConfigField("String", "SERVER_URL", ${JSON.stringify(JSON.stringify(url.origin))}) }\n defaultConfig { applicationId =`);
+const version=config.match(/versionCode = (\d+); versionName = "[^"]+"/);if(!version)throw Error('Versión Android no identificada');
+config=config.replace(version[0],`versionCode = ${Number(version[1])+7}; versionName = "2.0.6-local"`);config=config.replace('Bitácora KM · Prueba 1.4.11','Bitácora KM · Prueba 2.0.6');await fs.writeFile(gradle,config);
+const mobile=path.join(destination,'app/src/main/assets/mobile.html');await fs.writeFile(mobile,(await fs.readFile(mobile,'utf8')).replace(/(<p id="appVersion">)Versión [^<]+/, '$1Versión 2.0.6-local'));
+console.log('APK con dirección configurable, HTTPS inicial '+url.origin+'. Compilar con la MISMA firma de los APK instalados.');

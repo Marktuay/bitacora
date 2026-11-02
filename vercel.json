@@ -1,0 +1,50 @@
+{
+  "rewrites": [
+    {
+      "source": "/blokon",
+      "destination": "/form.html?company=blokon"
+    },
+    {
+      "source": "/conaser",
+      "destination": "/form.html?company=conaser"
+    },
+    {
+      "source": "/security",
+      "destination": "/form.html?company=security"
+    },
+    {
+      "source": "/newcentury",
+      "destination": "/form.html?company=newcentury"
+    },
+    {
+      "source": "/auditoria",
+      "destination": "/auditoria.html"
+    },
+    {
+      "source": "/reportes",
+      "destination": "/reportes.html"
+    },
+    {
+      "source": "/android",
+      "destination": "/android.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "framework": null
+}

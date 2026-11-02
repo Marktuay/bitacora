@@ -1,0 +1,9 @@
+{
+  "name": "Bitácora KM",
+  "short_name": "Bitácora KM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fa",
+  "theme_color": "#123f62",
+  "icons": []
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reportes - Bitácora KM</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+<main class="shell">
+  <div class="topbar no-print">
+    <div class="brand">
+      <a href="/" class="mark">NC</a>
+      <div><h1>Reportes</h1><p>Bitácoras por colaborador y fechas</p></div>
+    </div>
+    <div class="nav" data-auth-nav><a class="btn ghost" href="/">Inicio</a></div>
+  </div>
+
+  <section class="card report-controls no-print">
+    <div class="filters reports-filters">
+      <div class="field"><label for="company">Empresa</label><select id="company"><option value="blokon">BLOKON</option><option value="conaser">CONASER</option><option value="security">NEW CENTURY SECURITY</option><option value="newcentury">NEW CENTURY</option></select></div>
+      <div class="field wide"><label for="employee">Colaborador *</label><select id="employee"><option value="">Seleccione</option></select></div>
+      <div class="field"><label for="from">Desde</label><input id="from" type="date"></div>
+      <div class="field"><label for="to">Hasta</label><input id="to" type="date"></div>
+      <div class="field"><label for="reviewFilter">Aprobación</label><select id="reviewFilter"><option value="all">Todas las gestiones</option><option value="approved">Solo aprobadas</option><option value="unapproved">Sin aprobar</option></select></div>
+      <button id="searchBtn" class="btn primary">Generar reporte</button>
+    </div>
+  </section>
+
+
+  <section class="card fuel-vale-card no-print" aria-labelledby="fuelTitle">
+    <div class="fuel-vale-heading">
+      <div><h2 id="fuelTitle">Último vale de combustible</h2></div>
+    </div>
+    <div class="fuel-vale-fields">
+      <div class="field"><label for="fuelType">Combustible</label><select id="fuelType">
+        <option value="super">Gasolina súper · C$49.03/L</option>
+        <option value="regular">Gasolina regular · C$47.84/L</option>
+        <option value="diesel">Diésel · C$43.22/L</option>
+      </select></div>
+      <div class="field"><label for="fuelAmount">Monto del último vale (C$)</label><input id="fuelAmount" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" placeholder="Ej. 600.00"></div>
+      <div class="field"><label for="fuelVoucherNumber">Número del vale</label><input id="fuelVoucherNumber" type="text" maxlength="60" autocomplete="off" placeholder="Ej. R-538"></div>
+      <div class="field"><label for="fuelVoucherDate">Fecha del vale</label><input id="fuelVoucherDate" type="date"><div class="hint">Dato informativo; no altera el rango de rendición ni el cálculo.</div></div>
+      <button type="button" class="btn primary" id="fuelAction" disabled>Calcular y guardar vale</button>
+    </div>
+    <p class="hint" id="fuelNotice" role="status" aria-live="polite">Primero elegí un colaborador y generá su reporte. El vale no es obligatorio.</p>
+    <div id="fuelResults" class="fuel-vale-results" aria-live="polite" hidden></div>
+  </section>
+
+  <section class="card report-sheet" id="reportSheet">
+    <div class="report-title">
+      <h1>BITÁCORA DE RECORRIDO POR KILÓMETRO</h1>
+      <p id="periodLabel">Seleccione un colaborador y genere el reporte.</p>
+    </div>
+
+    <div class="report-meta">
+      <div><span>Empresa</span><strong id="rCompany">—</strong></div>
+      <div><span>Colaborador</span><strong id="rEmployee">—</strong></div>
+      <div><span>Área</span><strong id="rArea">—</strong></div>
+      <div><span>Placa</span><strong id="rPlate">—</strong></div>
+      <div><span>Tipo de vehículo</span><strong id="rVehicleType">—</strong></div>
+      <div><span>Marca</span><strong id="rBrand">—</strong></div>
+    </div>
+
+    <p id="approvalSummary" class="hint" role="status"></p>
+    <div class="report-actions no-print">
+      <button id="xlsxBtn" class="btn primary" disabled>Descargar Excel</button>
+      <button id="pdfBtn" class="btn ghost" disabled>Descargar PDF</button>
+      <button id="printBtn" class="btn ghost" disabled>Imprimir</button>
+    </div>
+
+    <p id="gpsComparisonStatus" class="hint no-print" role="status" aria-live="polite"></p>
+    <div class="table-wrap report-table-wrap km-table-scroll">
+      <table class="audit-table">
+        <thead id="comparisonHead"></thead>
+        <tbody id="rows"><tr><td colspan="12" class="empty">Sin reporte generado.</td></tr></tbody>
+        <tfoot id="comparisonTotals" hidden></tfoot>
+      </table>
+    </div>
+
+    <p id="totalsNote" class="hint" hidden></p>
+    <section id="fuelPrint" class="fuel-print" aria-labelledby="fuelPrintTitle" hidden>
+      <h2 id="fuelPrintTitle">RENDICION ULTIMO VALE</h2>
+      <div id="fuelPrintDetails" class="fuel-print-details"></div>
+    </section>
+    <div class="report-signatures">
+      <div><div class="signature-line"></div><strong>Elaborado por</strong><span id="sigEmployee">Colaborador</span></div>
+      <div><div class="signature-line"></div><strong>Revisado / autorizado por</strong><span id="sigManager">Jefe pendiente de identificar</span></div>
+    </div>
+  </section>
+</main>
+<script src="/assets/trip-comparison.js"></script><script src="/assets/gps-comparison.js"></script><script src="/assets/common.js"></script><script src="/assets/auth.js"></script>
+<script src="/assets/reports.js"></script>
+</body>
+</html>

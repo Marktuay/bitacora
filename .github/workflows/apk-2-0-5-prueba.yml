@@ -1,0 +1,89 @@
+name: Bitacora KM 2.0.5 - Reconectar dispositivo de prueba
+
+on:
+  push:
+    branches:
+      - fix/apk-2-0-5-reconexion-2026-10-20
+    paths:
+      - '.github/workflows/apk-2-0-5-prueba.yml'
+      - 'android/**'
+      - 'blazor/prepare-android.mjs'
+      - 'lib/mobile-api.js'
+      - 'tests/mobile-enrollment.test.cjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk-prueba:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Android API 36
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Verificar servidor y control de dispositivos revocados
+        run: |
+          npm ci --ignore-scripts
+          node --check lib/mobile-api.js
+          node --check android/app/src/main/assets/mobile.js
+          node --test tests/mobile-enrollment.test.cjs
+      - name: Verificar firma persistente de la APK de prueba
+        env:
+          PILOT_KEYSTORE_B64: ${{ secrets.BITACORA_PILOT_KEYSTORE_B64 }}
+          PILOT_PASSWORD: ${{ secrets.BITACORA_PILOT_STORE_PASSWORD }}
+        run: |
+          test -n "$PILOT_KEYSTORE_B64" && test -n "$PILOT_PASSWORD" || { echo "::error::Falta la firma persistente"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/bitacora-signing"
+          printf '%s' "$PILOT_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/bitacora-signing/pilot.keystore"
+          echo "BITACORA_PILOT_KEYSTORE=$RUNNER_TEMP/bitacora-signing/pilot.keystore" >> "$GITHUB_ENV"
+          echo "BITACORA_PILOT_STORE_PASSWORD=$PILOT_PASSWORD" >> "$GITHUB_ENV"
+      - name: Preparar APK 2.0.5 de prueba para servidor PostgreSQL
+        run: |
+          node blazor/prepare-android.mjs https://bitacorakmnc26.shares.zrok.io
+          grep -F 'versionName = "2.0.5-local"' blazor/AndroidRuntime/app/build.gradle.kts
+          node --check blazor/AndroidRuntime/app/src/main/assets/mobile.js
+      - name: Pruebas Kotlin y compilar APK separada
+        run: |
+          chmod +x blazor/AndroidRuntime/gradlew
+          cd blazor/AndroidRuntime
+          ./gradlew :app:testDebugUnitTest :app:assembleVerification --no-daemon
+      - name: Verificar identificador firma y aumento de versionCode
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NEW="blazor/AndroidRuntime/app/build/outputs/apk/verification/app-verification.apk"
+          test -s "$NEW"
+          gh release download apk-bitacora-postgresql-v2-0-4-2026-10-19 --pattern 'Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk' --dir "$RUNNER_TEMP" --repo "$GITHUB_REPOSITORY"
+          OLD="$RUNNER_TEMP/Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          OLD_CERT=$("$SIGNER" verify --print-certs "$OLD" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          NEW_CERT=$("$SIGNER" verify --print-certs "$NEW" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          test -n "$OLD_CERT" && test "$OLD_CERT" = "$NEW_CERT" || { echo "::error::La firma de la APK de prueba no coincide"; exit 1; }
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          "$AAPT" dump badging "$NEW" | grep "name='ni.bitacorakm.app.prueba'"
+          OLD_VERSION=$("$AAPT" dump badging "$OLD" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
+          NEW_VERSION=$("$AAPT" dump badging "$NEW" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
+          test -n "$OLD_VERSION" && test -n "$NEW_VERSION" && test "$NEW_VERSION" -gt "$OLD_VERSION" || { echo "::error::versionCode no aumento"; exit 1; }
+      - name: Publicar exclusivamente APK de prueba 2.0.5
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp blazor/AndroidRuntime/app/build/outputs/apk/verification/app-verification.apk Bitacora-KM-PostgreSQL-Prueba-v2.0.5.apk
+          tag="apk-bitacora-postgresql-v2-0-5-prueba-2026-10-20"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::Esta version de prueba ya fue publicada; no sobrescribir el APK"
+            exit 1
+          fi
+          gh release create "$tag" Bitacora-KM-PostgreSQL-Prueba-v2.0.5.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title "Bitacora KM 2.0.5 - prueba de reconexion PostgreSQL" --notes "Exclusivamente PRUEBAS. Corrige revinculacion autorizada de dispositivos tras migrar PostgreSQL y mensaje desactualizado de Conectar a la nube. Instala con identidad de prueba separada; no reemplazar la APK operativa. Requiere backend actualizado y prueba real con servidor PostgreSQL y GPS."

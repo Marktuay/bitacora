@@ -1,0 +1,99 @@
+name: APK final Bitacora KM PostgreSQL (corte aprobado)
+on:
+  workflow_dispatch:
+    inputs:
+      server_url:
+        description: 'URL HTTPS DEFINITIVA del servidor del trabajo (https://host/). No usar trycloudflare.com'
+        required: true
+        type: string
+      approved_cutover:
+        description: 'Escribí APROBADO tras validar migración, firma y cuentas. Sin esta palabra NO se compila.'
+        required: true
+        type: string
+permissions:
+  contents: write
+jobs:
+  apk-final:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirmar autorización y HTTPS estable
+        env:
+          SERVER_URL: ${{ inputs.server_url }}
+          APPROVAL: ${{ inputs.approved_cutover }}
+        run: |
+          if [ "$APPROVAL" != "APROBADO" ]; then echo "::error::No se autorizó el corte final"; exit 1; fi
+          node -e '
+          const raw=process.env.SERVER_URL;
+          const u=new URL(raw);
+          if(u.protocol!=="https:"||u.pathname!=="/"||u.search||u.hash||u.username||u.password
+            || u.hostname.endsWith("trycloudflare.com")
+            || ["localhost","127.0.0.1"].includes(u.hostname))
+            throw Error("Se necesita una URL HTTPS definitiva, sin túnel efímero");
+          console.log("HTTPS definitivo validado:",u.origin);
+          '
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Instalar SDK de firma Android
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Usar firma ORIGINAL conservada por GitHub
+        env:
+          SIGNING_KEY_B64: ${{ secrets.BITACORA_PILOT_KEYSTORE_B64 }}
+          SIGNING_PASS: ${{ secrets.BITACORA_PILOT_STORE_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_KEY_B64" ] || [ -z "$SIGNING_PASS" ]; then echo "::error::Faltan secretos de firma"; exit 1; fi
+          mkdir -p "$RUNNER_TEMP/signing"
+          printf '%s' "$SIGNING_KEY_B64" | base64 -d > "$RUNNER_TEMP/signing/original.keystore"
+          echo "BITACORA_PILOT_KEYSTORE=$RUNNER_TEMP/signing/original.keystore" >> "$GITHUB_ENV"
+          echo "BITACORA_PILOT_STORE_PASSWORD=$SIGNING_PASS" >> "$GITHUB_ENV"
+      - name: Preparar APK de producción con nueva URL
+        env:
+          SERVER_URL: ${{ inputs.server_url }}
+        run: node blazor/prepare-android.mjs "$SERVER_URL"
+      - name: Compilar APK de PRODUCCIÓN y ejecutar pruebas
+        run: |
+          chmod +x blazor/AndroidRuntime/gradlew
+          cd blazor/AndroidRuntime
+          ./gradlew :app:testDebugUnitTest :app:assembleDebug --no-daemon
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/Bitacora-KM-PostgreSQL-Produccion.apk"
+      - name: Comparar certificado e identidad con APK 1.4.11 publicada
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download apk-1.4.11 --pattern 'Bitacora-KM-1.4.11.apk' --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/signing"
+          OLD="$RUNNER_TEMP/signing/Bitacora-KM-1.4.11.apk"
+          NEW="$GITHUB_WORKSPACE/Bitacora-KM-PostgreSQL-Produccion.apk"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          OLD_CERT=$("$SIGNER" verify --print-certs "$OLD" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          NEW_CERT=$("$SIGNER" verify --print-certs "$NEW" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          test -n "$OLD_CERT" && test "$OLD_CERT" = "$NEW_CERT" || { echo "::error::La firma NO coincide con la APK 1.4.11"; exit 1; }
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          OLD_ID=$("$AAPT" dump badging "$OLD" | grep "^package:")
+          NEW_ID=$("$AAPT" dump badging "$NEW" | grep "^package:")
+          echo "APK original: $OLD_ID"
+          echo "APK final: $NEW_ID"
+          echo "$NEW_ID" | grep -q "name='ni.bitacorakm.app'" || { echo "::error::Identificador de producción incorrecto"; exit 1; }
+          OLD_VER=$(echo "$OLD_ID" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
+          NEW_VER=$(echo "$NEW_ID" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
+          test "$NEW_VER" -gt "$OLD_VER" || { echo "::error::VersionCode no supera a la versión anterior"; exit 1; }
+          printf '%s\n' "Firma e identidad coinciden con APK 1.4.11 publicada. Verificar además huella de una APK instalada en la PC antes de distribuir." > CERTIFICADO_VERIFICADO.txt
+      - name: Publicar únicamente tras validación de firma
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag='bitacora-km-postgresql-produccion-2026-10-26'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::Ya existe una compilación final con ese nombre; no sobrescribir la distribución de producción."
+            exit 1
+          fi
+          gh release create "$tag" Bitacora-KM-PostgreSQL-Produccion.apk CERTIFICADO_VERIFICADO.txt --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title 'Bitacora KM PostgreSQL · APK final 26/10/2026' --notes 'Distribuir SOLO después del corte y firma de aceptación. Construida para URL HTTPS fija; no contiene contraseñas ni la base de datos. Misma identidad y firma que la APK 1.4.11 publicada.'

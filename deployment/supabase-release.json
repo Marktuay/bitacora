@@ -1,0 +1,10 @@
+{
+  "ref": "refs/tags/self-hosted/v0.8.1",
+  "node_id": "MDM6UmVmMjE0NTg3MTkzOnJlZnMvdGFncy9zZWxmLWhvc3RlZC92MC44LjE=",
+  "url": "https://api.github.com/repos/supabase/supabase/git/refs/tags/self-hosted/v0.8.1",
+  "object": {
+    "sha": "690080884040e238926ba22606e8c05a3536829b",
+    "type": "tag",
+    "url": "https://api.github.com/repos/supabase/supabase/git/tags/690080884040e238926ba22606e8c05a3536829b"
+  }
+}

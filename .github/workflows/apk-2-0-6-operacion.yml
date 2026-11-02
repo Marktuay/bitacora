@@ -1,0 +1,112 @@
+name: Bitacora KM 2.0.6 - APK operativa firmada
+
+on:
+  push:
+    branches:
+      - fix/apk-2-0-6-reautorizar-pendientes-2026-10-20
+    paths:
+      - '.github/workflows/apk-2-0-6-operacion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk-operacion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Instalar Android API 36
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Pruebas del servidor y verificacion JavaScript
+        run: |
+          npm ci --ignore-scripts
+          node --check lib/mobile-api.js
+          node --check android/app/src/main/assets/mobile.js
+          node --test tests/mobile-enrollment.test.cjs
+      - name: Preparar firma ORIGINAL de actualizacion
+        env:
+          SIGNING_KEY_B64: ${{ secrets.BITACORA_PILOT_KEYSTORE_B64 }}
+          SIGNING_PASS: ${{ secrets.BITACORA_PILOT_STORE_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_KEY_B64" ] || [ -z "$SIGNING_PASS" ]; then
+            echo "::error::No esta disponible la firma original para actualizar la APK operativa."
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/bitacora-signing"
+          printf '%s' "$SIGNING_KEY_B64" | base64 -d > "$RUNNER_TEMP/bitacora-signing/original.keystore"
+          echo "BITACORA_PILOT_KEYSTORE=$RUNNER_TEMP/bitacora-signing/original.keystore" >> "$GITHUB_ENV"
+          echo "BITACORA_PILOT_STORE_PASSWORD=$SIGNING_PASS" >> "$GITHUB_ENV"
+      - name: Preparar version operativa 2.0.6 para HTTPS vigente
+        run: |
+          node blazor/prepare-android.mjs https://bitacorakmnc26.shares.zrok.io
+          python3 - <<'PY'
+          from pathlib import Path
+          gradle=Path('blazor/AndroidRuntime/app/build.gradle.kts')
+          g=gradle.read_text()
+          assert 'versionName = "2.0.6-local"' in g
+          assert 'release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("release") }' in g
+          g=g.replace('versionName = "2.0.6-local"','versionName = "2.0.6"')
+          g=g.replace('release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("release") }',
+                      'release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("debug") }')
+          gradle.write_text(g)
+          html=Path('blazor/AndroidRuntime/app/src/main/assets/mobile.html')
+          h=html.read_text()
+          assert 'Versión 2.0.6-local' in h
+          html.write_text(h.replace('Versión 2.0.6-local','Versión 2.0.6'))
+          PY
+          node --check blazor/AndroidRuntime/app/src/main/assets/mobile.js
+      - name: Probar Kotlin y construir RELEASE no depurable
+        run: |
+          chmod +x blazor/AndroidRuntime/gradlew
+          cd blazor/AndroidRuntime
+          ./gradlew :app:testDebugUnitTest :app:assembleRelease --no-daemon
+          test -s app/build/outputs/apk/release/app-release.apk
+      - name: Validar firma paquete version y que NO sea depurable
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download apk-bitacora-postgresql-v2-0-5-operacion-2026-10-20 --pattern 'Bitacora-KM-PostgreSQL-Operacion-v2.0.5.apk' --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP"
+          OLD="$RUNNER_TEMP/Bitacora-KM-PostgreSQL-Operacion-v2.0.5.apk"
+          NEW="blazor/AndroidRuntime/app/build/outputs/apk/release/app-release.apk"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          "$SIGNER" verify "$NEW"
+          OLD_CERT=$("$SIGNER" verify --print-certs "$OLD" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          NEW_CERT=$("$SIGNER" verify --print-certs "$NEW" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          test -n "$OLD_CERT" && test "$OLD_CERT" = "$NEW_CERT" || { echo "::error::Firma de actualizacion diferente"; exit 1; }
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          "$AAPT" dump badging "$NEW" | grep -F "name='ni.bitacorakm.app'"
+          if "$AAPT" dump badging "$NEW" | grep -q '^application-debuggable'; then
+            echo "::error::APK operativa depurable"
+            exit 1
+          fi
+          OLD_CODE=$("$AAPT" dump badging "$OLD" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
+          NEW_CODE=$("$AAPT" dump badging "$NEW" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
+          test -n "$OLD_CODE" && test -n "$NEW_CODE" && test "$NEW_CODE" -gt "$OLD_CODE" || { echo "::error::VersionCode no supera 2.0.5"; exit 1; }
+          "$AAPT" dump badging "$NEW" | grep -F "versionName='2.0.6'"
+          printf 'APK OPERATIVA 2.0.6; applicationId ni.bitacorakm.app; HTTPS https://bitacorakmnc26.shares.zrok.io; versionCode %s; firma SHA256 %s; no depurable; pendiente validacion en servidor oficial.\n' "$NEW_CODE" "$NEW_CERT" > CERTIFICADO_APK_2.0.6.txt
+      - name: Publicar APK operativa 2.0.6 sin sobrescribir anteriores
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=apk-bitacora-postgresql-v2-0-6-operacion-2026-10-20
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::La release ya existe; no sustituir una entrega anterior."
+            exit 1
+          fi
+          cp blazor/AndroidRuntime/app/build/outputs/apk/release/app-release.apk Bitacora-KM-PostgreSQL-Operacion-v2.0.6.apk
+          gh release create "$tag" Bitacora-KM-PostgreSQL-Operacion-v2.0.6.apk CERTIFICADO_APK_2.0.6.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "Bitacora KM 2.0.6 - APK operativa firmada" \
+            --notes "APK operativa NO depurable para PostgreSQL/Blazor, con firma e identificador compatibles con 2.0.5. URL HTTPS VIGENTE del piloto: https://bitacorakmnc26.shares.zrok.io. Preparada para instalacion controlada, NO ejecutar sustitucion masiva antes de validar el servidor oficial y su URL definitiva. El servidor debe incorporar el codigo corregido de esta misma rama, especialmente lib/mobile-api.js, y restaurar las tablas km_mobile_devices y sus datos. Conservar las colas de recorridos/GPS, historial y fotos. Se requiere nueva compilacion si cambia el dominio HTTPS." 

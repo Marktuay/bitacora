@@ -1,0 +1,79 @@
+name: Verificar Bitacora KM
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validar_calles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verificar OSRM real con mapa sintético
+        env:
+          OSRM_TEST_IMAGE: ghcr.io/project-osrm/osrm-backend:26.4.1-debian@sha256:6b3d7232f168289fa97ca5a27c02a47895959a2f75cdc3ebfe406f31928702e5
+        run: |
+          mkdir -p "$RUNNER_TEMP/osrm-test"
+          cp tests/fixtures/osrm-test.osm "$RUNNER_TEMP/osrm-test/test.osm"
+          docker run --rm -v "$RUNNER_TEMP/osrm-test:/data" "$OSRM_TEST_IMAGE" osrm-extract -p /opt/car.lua /data/test.osm
+          docker run --rm -v "$RUNNER_TEMP/osrm-test:/data" "$OSRM_TEST_IMAGE" osrm-partition /data/test.osrm
+          docker run --rm -v "$RUNNER_TEMP/osrm-test:/data" "$OSRM_TEST_IMAGE" osrm-customize /data/test.osrm
+          docker run -d --name bitacora-osrm-test -p 127.0.0.1:5000:5000 -v "$RUNNER_TEMP/osrm-test:/data:ro" "$OSRM_TEST_IMAGE" osrm-routed --algorithm mld /data/test.osrm
+          node scripts/verify-osrm.cjs
+      - name: Detener servicio de prueba
+        if: always()
+        run: docker rm -f bitacora-osrm-test || true
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Importar ZIP si existe
+        run: |
+          if [ -f bitacora-km-bootstrap.zip ]; then
+            unzip -o bitacora-km-bootstrap.zip -d .
+            rm -f bitacora-km-bootstrap.zip
+            git config user.name "Bitacora KM Automation"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A
+            git diff --cached --quiet || git commit -m "Import Bitacora KM source"
+            git push
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Verificar web
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preparar firma privada estable
+        env:
+          PILOT_KEYSTORE_B64: ${{ secrets.BITACORA_PILOT_KEYSTORE_B64 }}
+        run: |
+          test -n "$PILOT_KEYSTORE_B64" || { echo "Falta la firma privada del piloto"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/bitacora-signing"
+          printf '%s' "$PILOT_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/bitacora-signing/pilot.keystore"
+          echo "BITACORA_PILOT_KEYSTORE=$RUNNER_TEMP/bitacora-signing/pilot.keystore" >> "$GITHUB_ENV"
+      - name: Verificar Android
+        env:
+          BITACORA_PILOT_STORE_PASSWORD: ${{ secrets.BITACORA_PILOT_STORE_PASSWORD }}
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug :app:assembleVerification :app:lintVerification --no-daemon
+      - name: Verificar APKs construidos
+        run: |
+          test -s android/app/build/outputs/apk/debug/app-debug.apk
+          test -s android/app/build/outputs/apk/verification/app-verification.apk
+          echo "APK de actualización publicado por el flujo APK Bitácora KM (GitHub Releases)."

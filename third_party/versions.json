@@ -1,0 +1,13 @@
+{
+  "traccar": {
+    "version": "6.15.3",
+    "commit": "5eb957893c22b988f831200e976b36262d2b8592"
+  },
+  "traccar-web": {
+    "commit": "cfedd3415415623ddbeb74ed6fe6238f3f7a47e0"
+  },
+  "traccar-client-sdk": {
+    "version": "1.0.11",
+    "commit": "d8d67db5cb00aa1a7048bc0d8ae08fa63a83221c"
+  }
+}

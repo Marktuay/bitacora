@@ -1,0 +1,72 @@
+name: Entrega piloto Bitacora KM Windows y Android
+on:
+  push:
+    branches:
+      - migration/blazor-postgresql-2026-10-17
+    paths:
+      - '.github/workflows/entrega-piloto-blazor.yml'
+      - 'blazor/Build-Windows.ps1'
+      - 'blazor/PLAN_TRANSICION_SIN_PARAR.md'
+      - 'blazor/VERIFICACION.md'
+      - 'blazor/ENTREGA-INFORMATICA.md'
+      - 'blazor/README.md'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  paquete-windows:
+    runs-on: windows-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Probar motor PostgreSQL local
+        shell: pwsh
+        run: |
+          npm ci --prefix blazor/engine
+          if ($LASTEXITCODE -ne 0) { throw 'Error al instalar dependencias de prueba' }
+          npm test --prefix blazor/engine
+          if ($LASTEXITCODE -ne 0) { throw 'Fallaron pruebas del motor' }
+      - name: Compilar servidor Windows completo
+        shell: pwsh
+        run: |
+          .\blazor\Build-Windows.ps1 -Destination "$env:GITHUB_WORKSPACE\Entrega\Servidor"
+          if (!(Test-Path "$env:GITHUB_WORKSPACE\Entrega\Servidor\Bitacora.Web.exe")) { throw 'No se produjo el servidor' }
+      - name: Descargar APK piloto optimizada
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference='Continue'
+          $where="$env:GITHUB_WORKSPACE\Entrega\Android"
+          New-Item -ItemType Directory -Force -Path $where | Out-Null
+          $got=$false
+          for($i=0;$i -lt 30;$i++){
+            gh release download 'apk-prueba-blazor-2026-10-18-2-0-2' --pattern 'Bitacora-KM-Prueba-Android.apk' --dir $where --repo "$env:GITHUB_REPOSITORY" --clobber 2>$null
+            if($LASTEXITCODE -eq 0 -and (Test-Path "$where\Bitacora-KM-Prueba-Android.apk")){ $got=$true;break }
+            Start-Sleep -Seconds 30
+          }
+          if(!$got){throw 'No hay APK optimizada disponible; verificar compilacion Android.'}
+      - name: Documentacion y manifiesto
+        shell: pwsh
+        run: |
+          Copy-Item blazor\ENTREGA-INFORMATICA.md Entrega\LEEME-ENTREGA.md
+          Copy-Item blazor\README.md Entrega\MANUAL-MIGRACION.md
+          Copy-Item blazor\PLAN_TRANSICION_SIN_PARAR.md Entrega\PLAN-CONTINUIDAD-Y-CORTE.md
+          Copy-Item blazor\VERIFICACION.md Entrega\VERIFICACION-TECNICA.md
+          "Bitacora KM | 2026-10-18 | Revision $env:GITHUB_SHA" | Out-File Entrega\VERSION.txt -Encoding utf8
+          Get-ChildItem -Path Entrega -Recurse -File | Get-FileHash -Algorithm SHA256 | ForEach-Object {"$($_.Hash)  $($_.Path.Substring($env:GITHUB_WORKSPACE.Length+1))"} | Set-Content Entrega\SHA256.txt
+          Compress-Archive -Path Entrega\* -DestinationPath Bitacora-KM-Entrega-Informatica-v2.0.2-CORREGIDO.zip -Force
+      - name: Publicar paquete único y APK
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag='bitacora-km-entrega-2026-10-18-v2-0-2-corregido'
+          gh release create $tag 'Bitacora-KM-Entrega-Informatica-v2.0.2-CORREGIDO.zip' 'Entrega/Android/Bitacora-KM-Prueba-Android.apk' --repo "$env:GITHUB_REPOSITORY" --target "$env:GITHUB_SHA" --prerelease --title 'Bitacora KM: entrega Informática 2.0.2 - documentación corregida' --notes 'Incluye únicamente Bitácora KM: servidor Blazor/Node, APK Android de pruebas 2.0.2, plan de continuidad, migracion en dos etapas y verificaciones tecnicas. No incluye datos, credenciales ni software externo PostgreSQL/Traccar/OSRM. URL Cloudflare temporal; instalar en produccion exige dominio estable, firma APK de produccion y migracion final.'
+          if($LASTEXITCODE -ne 0){ throw 'No se pudo publicar el paquete.' }

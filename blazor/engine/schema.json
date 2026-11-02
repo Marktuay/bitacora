@@ -1,0 +1,2318 @@
+{
+  "views": [
+    {
+      "name": "bitacora_consolidada",
+      "definition": " SELECT bitacora_blokon.id,\n    bitacora_blokon.created_at,\n    bitacora_blokon.reviewed_at,\n    bitacora_blokon.date,\n    bitacora_blokon.employee_id,\n    bitacora_blokon.employee_name,\n    bitacora_blokon.company,\n    bitacora_blokon.area_employee,\n    bitacora_blokon.vehicle_id,\n    bitacora_blokon.vehicle_type,\n    bitacora_blokon.brand,\n    bitacora_blokon.plate,\n    bitacora_blokon.area_request,\n    bitacora_blokon.origin,\n    bitacora_blokon.destination,\n    bitacora_blokon.time_start,\n    bitacora_blokon.time_end,\n    bitacora_blokon.km_initial,\n    bitacora_blokon.km_final,\n    bitacora_blokon.km_travel,\n    bitacora_blokon.management_type,\n    bitacora_blokon.order_reference,\n    bitacora_blokon.result,\n    bitacora_blokon.employee_observation,\n    bitacora_blokon.support_path,\n    bitacora_blokon.km_traccar,\n    bitacora_blokon.difference_km,\n    bitacora_blokon.review_status,\n    bitacora_blokon.odometer_start_path,\n    bitacora_blokon.odometer_end_path\n   FROM bitacora_blokon\nUNION ALL\n SELECT bitacora_conaser.id,\n    bitacora_conaser.created_at,\n    bitacora_conaser.reviewed_at,\n    bitacora_conaser.date,\n    bitacora_conaser.employee_id,\n    bitacora_conaser.employee_name,\n    bitacora_conaser.company,\n    bitacora_conaser.area_employee,\n    bitacora_conaser.vehicle_id,\n    bitacora_conaser.vehicle_type,\n    bitacora_conaser.brand,\n    bitacora_conaser.plate,\n    bitacora_conaser.area_request,\n    bitacora_conaser.origin,\n    bitacora_conaser.destination,\n    bitacora_conaser.time_start,\n    bitacora_conaser.time_end,\n    bitacora_conaser.km_initial,\n    bitacora_conaser.km_final,\n    bitacora_conaser.km_travel,\n    bitacora_conaser.management_type,\n    bitacora_conaser.order_reference,\n    bitacora_conaser.result,\n    bitacora_conaser.employee_observation,\n    bitacora_conaser.support_path,\n    bitacora_conaser.km_traccar,\n    bitacora_conaser.difference_km,\n    bitacora_conaser.review_status,\n    bitacora_conaser.odometer_start_path,\n    bitacora_conaser.odometer_end_path\n   FROM bitacora_conaser\nUNION ALL\n SELECT bitacora_security.id,\n    bitacora_security.created_at,\n    bitacora_security.reviewed_at,\n    bitacora_security.date,\n    bitacora_security.employee_id,\n    bitacora_security.employee_name,\n    bitacora_security.company,\n    bitacora_security.area_employee,\n    bitacora_security.vehicle_id,\n    bitacora_security.vehicle_type,\n    bitacora_security.brand,\n    bitacora_security.plate,\n    bitacora_security.area_request,\n    bitacora_security.origin,\n    bitacora_security.destination,\n    bitacora_security.time_start,\n    bitacora_security.time_end,\n    bitacora_security.km_initial,\n    bitacora_security.km_final,\n    bitacora_security.km_travel,\n    bitacora_security.management_type,\n    bitacora_security.order_reference,\n    bitacora_security.result,\n    bitacora_security.employee_observation,\n    bitacora_security.support_path,\n    bitacora_security.km_traccar,\n    bitacora_security.difference_km,\n    bitacora_security.review_status,\n    bitacora_security.odometer_start_path,\n    bitacora_security.odometer_end_path\n   FROM bitacora_security\nUNION ALL\n SELECT bitacora_newcentury.id,\n    bitacora_newcentury.created_at,\n    bitacora_newcentury.reviewed_at,\n    bitacora_newcentury.date,\n    bitacora_newcentury.employee_id,\n    bitacora_newcentury.employee_name,\n    bitacora_newcentury.company,\n    bitacora_newcentury.area_employee,\n    bitacora_newcentury.vehicle_id,\n    bitacora_newcentury.vehicle_type,\n    bitacora_newcentury.brand,\n    bitacora_newcentury.plate,\n    bitacora_newcentury.area_request,\n    bitacora_newcentury.origin,\n    bitacora_newcentury.destination,\n    bitacora_newcentury.time_start,\n    bitacora_newcentury.time_end,\n    bitacora_newcentury.km_initial,\n    bitacora_newcentury.km_final,\n    bitacora_newcentury.km_travel,\n    bitacora_newcentury.management_type,\n    bitacora_newcentury.order_reference,\n    bitacora_newcentury.result,\n    bitacora_newcentury.employee_observation,\n    bitacora_newcentury.support_path,\n    bitacora_newcentury.km_traccar,\n    bitacora_newcentury.difference_km,\n    bitacora_newcentury.review_status,\n    bitacora_newcentury.odometer_start_path,\n    bitacora_newcentury.odometer_end_path\n   FROM bitacora_newcentury;"
+    }
+  ],
+  "tables": [
+    {
+      "rls": true,
+      "name": "vehicles_blokon",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "traccar_device_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate",
+          "type": "numeric(10,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX vehicles_blokon_pkey ON public.vehicles_blokon USING btree (id)",
+        "CREATE UNIQUE INDEX vehicles_blokon_plate_key ON public.vehicles_blokon USING btree (plate)",
+        "CREATE INDEX vehicles_blokon_employee_id_idx ON public.vehicles_blokon USING btree (employee_id)"
+      ],
+      "constraints": [
+        {
+          "name": "vehicles_blokon_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_blokon(id)"
+        },
+        {
+          "name": "vehicles_blokon_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "vehicles_blokon_plate_key",
+          "definition": "UNIQUE (plate)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "vehicles_conaser",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "traccar_device_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate",
+          "type": "numeric(10,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX vehicles_conaser_pkey ON public.vehicles_conaser USING btree (id)",
+        "CREATE UNIQUE INDEX vehicles_conaser_plate_key ON public.vehicles_conaser USING btree (plate)",
+        "CREATE INDEX vehicles_conaser_employee_id_idx ON public.vehicles_conaser USING btree (employee_id)"
+      ],
+      "constraints": [
+        {
+          "name": "vehicles_conaser_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_conaser(id)"
+        },
+        {
+          "name": "vehicles_conaser_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "vehicles_conaser_plate_key",
+          "definition": "UNIQUE (plate)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "vehicles_security",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "traccar_device_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate",
+          "type": "numeric(10,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX vehicles_security_pkey ON public.vehicles_security USING btree (id)",
+        "CREATE UNIQUE INDEX vehicles_security_plate_key ON public.vehicles_security USING btree (plate)",
+        "CREATE INDEX vehicles_security_employee_id_idx ON public.vehicles_security USING btree (employee_id)"
+      ],
+      "constraints": [
+        {
+          "name": "vehicles_security_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_security(id)"
+        },
+        {
+          "name": "vehicles_security_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "vehicles_security_plate_key",
+          "definition": "UNIQUE (plate)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "employees_blokon",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX employees_blokon_pkey ON public.employees_blokon USING btree (id)"
+      ],
+      "constraints": [
+        {
+          "name": "employees_blokon_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "bitacora_blokon",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": "'BLOKON'::text",
+          "notnull": true
+        },
+        {
+          "name": "area_employee",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "area_request",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "origin",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "destination",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_start",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_end",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_initial",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_final",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_travel",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "management_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "order_reference",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_observation",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "support_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_traccar",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "difference_km",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "review_status",
+          "type": "text",
+          "default": "'Pendiente'::text",
+          "notnull": true
+        },
+        {
+          "name": "odometer_start_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "odometer_end_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX bitacora_blokon_pkey ON public.bitacora_blokon USING btree (id)",
+        "CREATE INDEX bitacora_blokon_employee_date_idx ON public.bitacora_blokon USING btree (employee_id, date DESC)",
+        "CREATE INDEX bitacora_blokon_vehicle_date_idx ON public.bitacora_blokon USING btree (vehicle_id, date DESC)"
+      ],
+      "constraints": [
+        {
+          "name": "bitacora_blokon_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_blokon(id)"
+        },
+        {
+          "name": "bitacora_blokon_km_check",
+          "definition": "CHECK ((km_final >= km_initial))"
+        },
+        {
+          "name": "bitacora_blokon_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "bitacora_blokon_review_status_check",
+          "definition": "CHECK ((review_status = ANY (ARRAY['Pendiente'::text, 'Aprobado'::text, 'Revisar'::text, 'Rechazado'::text])))"
+        },
+        {
+          "name": "bitacora_blokon_vehicle_id_fkey",
+          "definition": "FOREIGN KEY (vehicle_id) REFERENCES vehicles_blokon(id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "employees_conaser",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX employees_conaser_pkey ON public.employees_conaser USING btree (id)"
+      ],
+      "constraints": [
+        {
+          "name": "employees_conaser_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "bitacora_conaser",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": "'CONASER'::text",
+          "notnull": true
+        },
+        {
+          "name": "area_employee",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "area_request",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "origin",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "destination",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_start",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_end",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_initial",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_final",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_travel",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "management_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "order_reference",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_observation",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "support_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_traccar",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "difference_km",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "review_status",
+          "type": "text",
+          "default": "'Pendiente'::text",
+          "notnull": true
+        },
+        {
+          "name": "odometer_start_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "odometer_end_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX bitacora_conaser_pkey ON public.bitacora_conaser USING btree (id)",
+        "CREATE INDEX bitacora_conaser_employee_date_idx ON public.bitacora_conaser USING btree (employee_id, date DESC)",
+        "CREATE INDEX bitacora_conaser_vehicle_date_idx ON public.bitacora_conaser USING btree (vehicle_id, date DESC)"
+      ],
+      "constraints": [
+        {
+          "name": "bitacora_conaser_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_conaser(id)"
+        },
+        {
+          "name": "bitacora_conaser_km_check",
+          "definition": "CHECK ((km_final >= km_initial))"
+        },
+        {
+          "name": "bitacora_conaser_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "bitacora_conaser_review_status_check",
+          "definition": "CHECK ((review_status = ANY (ARRAY['Pendiente'::text, 'Aprobado'::text, 'Revisar'::text, 'Rechazado'::text])))"
+        },
+        {
+          "name": "bitacora_conaser_vehicle_id_fkey",
+          "definition": "FOREIGN KEY (vehicle_id) REFERENCES vehicles_conaser(id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "employees_security",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX employees_security_pkey ON public.employees_security USING btree (id)"
+      ],
+      "constraints": [
+        {
+          "name": "employees_security_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "bitacora_security",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": "'NEW CENTURY SECURITY'::text",
+          "notnull": true
+        },
+        {
+          "name": "area_employee",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "area_request",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "origin",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "destination",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_start",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_end",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_initial",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_final",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_travel",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "management_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "order_reference",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_observation",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "support_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_traccar",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "difference_km",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "review_status",
+          "type": "text",
+          "default": "'Pendiente'::text",
+          "notnull": true
+        },
+        {
+          "name": "odometer_start_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "odometer_end_path",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX bitacora_security_pkey ON public.bitacora_security USING btree (id)",
+        "CREATE INDEX bitacora_security_employee_date_idx ON public.bitacora_security USING btree (employee_id, date DESC)",
+        "CREATE INDEX bitacora_security_vehicle_date_idx ON public.bitacora_security USING btree (vehicle_id, date DESC)"
+      ],
+      "constraints": [
+        {
+          "name": "bitacora_security_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_security(id)"
+        },
+        {
+          "name": "bitacora_security_km_check",
+          "definition": "CHECK ((km_final >= km_initial))"
+        },
+        {
+          "name": "bitacora_security_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "bitacora_security_review_status_check",
+          "definition": "CHECK ((review_status = ANY (ARRAY['Pendiente'::text, 'Aprobado'::text, 'Revisar'::text, 'Rechazado'::text])))"
+        },
+        {
+          "name": "bitacora_security_vehicle_id_fkey",
+          "definition": "FOREIGN KEY (vehicle_id) REFERENCES vehicles_security(id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_gps_positions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "device_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "latitude",
+          "type": "double precision",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "longitude",
+          "type": "double precision",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "accuracy_m",
+          "type": "double precision",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "speed_kmh",
+          "type": "double precision",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "heading_deg",
+          "type": "double precision",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "altitude_m",
+          "type": "double precision",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "battery_pct",
+          "type": "double precision",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "valid",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "mock",
+          "type": "boolean",
+          "default": "false",
+          "notnull": true
+        },
+        {
+          "name": "source",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_gps_positions_pkey ON public.km_gps_positions USING btree (id)",
+        "CREATE UNIQUE INDEX km_gps_positions_device_id_recorded_at_latitude_longitude_key ON public.km_gps_positions USING btree (device_id, recorded_at, latitude, longitude)"
+      ],
+      "constraints": [
+        {
+          "name": "km_gps_positions_accuracy_m_check",
+          "definition": "CHECK (((accuracy_m >= (0)::double precision) AND (accuracy_m < (100000)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_altitude_m_check",
+          "definition": "CHECK (((altitude_m >= ('-1500'::integer)::double precision) AND (altitude_m <= (100000)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_battery_pct_check",
+          "definition": "CHECK (((battery_pct >= (0)::double precision) AND (battery_pct <= (100)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_device_id_fkey",
+          "definition": "FOREIGN KEY (device_id) REFERENCES km_mobile_devices(id)"
+        },
+        {
+          "name": "km_gps_positions_device_id_recorded_at_latitude_longitude_key",
+          "definition": "UNIQUE (device_id, recorded_at, latitude, longitude)"
+        },
+        {
+          "name": "km_gps_positions_heading_deg_check",
+          "definition": "CHECK (((heading_deg >= (0)::double precision) AND (heading_deg <= (360)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_latitude_check",
+          "definition": "CHECK (((latitude >= ('-90'::integer)::double precision) AND (latitude <= (90)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_longitude_check",
+          "definition": "CHECK (((longitude >= ('-180'::integer)::double precision) AND (longitude <= (180)::double precision)))"
+        },
+        {
+          "name": "km_gps_positions_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "km_gps_positions_source_check",
+          "definition": "CHECK ((source = ANY (ARRAY['osmand'::text, 'traccar-json'::text])))"
+        },
+        {
+          "name": "km_gps_positions_speed_kmh_check",
+          "definition": "CHECK (((speed_kmh >= (0)::double precision) AND (speed_kmh < (2000)::double precision)))"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_mobile_trips",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "device_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "entry_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "ended_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "synced_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "gps_flushed",
+          "type": "boolean",
+          "default": null,
+          "notnull": false
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_mobile_trips_pkey ON public.km_mobile_trips USING btree (id)",
+        "CREATE UNIQUE INDEX km_mobile_trips_entry_id_key ON public.km_mobile_trips USING btree (entry_id)",
+        "CREATE INDEX km_mobile_trips_device_time ON public.km_mobile_trips USING btree (device_id, started_at)",
+        "CREATE INDEX km_mobile_trips_company_entry ON public.km_mobile_trips USING btree (company, entry_id)"
+      ],
+      "constraints": [
+        {
+          "name": "km_mobile_trips_check",
+          "definition": "CHECK ((ended_at >= started_at))"
+        },
+        {
+          "name": "km_mobile_trips_company_check",
+          "definition": "CHECK ((company = ANY (ARRAY['blokon'::text, 'conaser'::text, 'security'::text, 'newcentury'::text])))"
+        },
+        {
+          "name": "km_mobile_trips_device_id_fkey",
+          "definition": "FOREIGN KEY (device_id) REFERENCES km_mobile_devices(id)"
+        },
+        {
+          "name": "km_mobile_trips_entry_id_key",
+          "definition": "UNIQUE (entry_id)"
+        },
+        {
+          "name": "km_mobile_trips_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_traccar_relay_jobs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "operation",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'queued'::text",
+          "notnull": true
+        },
+        {
+          "name": "response",
+          "type": "jsonb",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "attempts",
+          "type": "integer",
+          "default": "0",
+          "notnull": true
+        },
+        {
+          "name": "available_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_traccar_relay_jobs_pkey ON public.km_traccar_relay_jobs USING btree (id)",
+        "CREATE INDEX km_traccar_relay_pending ON public.km_traccar_relay_jobs USING btree (available_at, created_at) WHERE (status <> 'done'::text)",
+        "CREATE INDEX km_traccar_relay_expiry ON public.km_traccar_relay_jobs USING btree (expires_at)"
+      ],
+      "constraints": [
+        {
+          "name": "km_traccar_relay_jobs_id_check",
+          "definition": "CHECK ((length(id) = 64))"
+        },
+        {
+          "name": "km_traccar_relay_jobs_operation_check",
+          "definition": "CHECK ((operation = ANY (ARRAY['position'::text, 'device'::text, 'route'::text, 'summary'::text])))"
+        },
+        {
+          "name": "km_traccar_relay_jobs_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "km_traccar_relay_jobs_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['queued'::text, 'processing'::text, 'done'::text])))"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_mobile_devices",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "label",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "pair_hash",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "pair_expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "token_hash",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "traccar_unique_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "traccar_device_id",
+          "type": "bigint",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_mobile_devices_pkey ON public.km_mobile_devices USING btree (id)",
+        "CREATE UNIQUE INDEX km_mobile_devices_pair_hash_key ON public.km_mobile_devices USING btree (pair_hash)",
+        "CREATE UNIQUE INDEX km_mobile_devices_token_hash_key ON public.km_mobile_devices USING btree (token_hash)",
+        "CREATE UNIQUE INDEX km_mobile_devices_traccar_unique_id_key ON public.km_mobile_devices USING btree (traccar_unique_id)"
+      ],
+      "constraints": [
+        {
+          "name": "km_mobile_devices_company_check",
+          "definition": "CHECK ((company = ANY (ARRAY['blokon'::text, 'conaser'::text, 'security'::text, 'newcentury'::text])))"
+        },
+        {
+          "name": "km_mobile_devices_pair_hash_key",
+          "definition": "UNIQUE (pair_hash)"
+        },
+        {
+          "name": "km_mobile_devices_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "km_mobile_devices_token_hash_key",
+          "definition": "UNIQUE (token_hash)"
+        },
+        {
+          "name": "km_mobile_devices_traccar_unique_id_key",
+          "definition": "UNIQUE (traccar_unique_id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_gps_credentials",
+      "columns": [
+        {
+          "name": "device_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "token_hash",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "last_received_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate_window",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate_count",
+          "type": "integer",
+          "default": "0",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_gps_credentials_pkey ON public.km_gps_credentials USING btree (device_id)",
+        "CREATE UNIQUE INDEX km_gps_credentials_token_hash_key ON public.km_gps_credentials USING btree (token_hash)"
+      ],
+      "constraints": [
+        {
+          "name": "km_gps_credentials_device_id_fkey",
+          "definition": "FOREIGN KEY (device_id) REFERENCES km_mobile_devices(id)"
+        },
+        {
+          "name": "km_gps_credentials_pkey",
+          "definition": "PRIMARY KEY (device_id)"
+        },
+        {
+          "name": "km_gps_credentials_token_hash_check",
+          "definition": "CHECK ((token_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "km_gps_credentials_token_hash_key",
+          "definition": "UNIQUE (token_hash)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_runtime_config",
+      "columns": [
+        {
+          "name": "key",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "value",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_runtime_config_pkey ON public.km_runtime_config USING btree (key)"
+      ],
+      "constraints": [
+        {
+          "name": "km_runtime_config_pkey",
+          "definition": "PRIMARY KEY (key)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_report_access",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "granted_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_report_access_pkey ON public.km_report_access USING btree (user_id, company, employee_id)"
+      ],
+      "constraints": [
+        {
+          "name": "km_report_access_company_check",
+          "definition": "CHECK ((company = ANY (ARRAY['blokon'::text, 'conaser'::text, 'security'::text, 'newcentury'::text])))"
+        },
+        {
+          "name": "km_report_access_pkey",
+          "definition": "PRIMARY KEY (user_id, company, employee_id)"
+        },
+        {
+          "name": "km_report_access_user_id_fkey",
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_traccar_relay_status",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "last_seen",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "traccar_online",
+          "type": "boolean",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "version",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_traccar_relay_status_pkey ON public.km_traccar_relay_status USING btree (id)"
+      ],
+      "constraints": [
+        {
+          "name": "km_traccar_relay_status_id_check",
+          "definition": "CHECK ((id = 'pilot'::text))"
+        },
+        {
+          "name": "km_traccar_relay_status_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "vehicles_newcentury",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "traccar_device_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "rate",
+          "type": "numeric(10,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX vehicles_newcentury_pkey ON public.vehicles_newcentury USING btree (id)",
+        "CREATE UNIQUE INDEX vehicles_newcentury_plate_key ON public.vehicles_newcentury USING btree (plate)",
+        "CREATE INDEX vehicles_newcentury_employee_id_idx ON public.vehicles_newcentury USING btree (employee_id)"
+      ],
+      "constraints": [
+        {
+          "name": "vehicles_newcentury_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_newcentury(id)"
+        },
+        {
+          "name": "vehicles_newcentury_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "vehicles_newcentury_plate_key",
+          "definition": "UNIQUE (plate)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "employees_newcentury",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "area",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX employees_newcentury_pkey ON public.employees_newcentury USING btree (id)"
+      ],
+      "constraints": [
+        {
+          "name": "employees_newcentury_pkey",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_employee_registrations",
+      "columns": [
+        {
+          "name": "request_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "actor_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_employee_registrations_pkey ON public.km_employee_registrations USING btree (request_id)"
+      ],
+      "constraints": [
+        {
+          "name": "km_employee_registrations_company_check",
+          "definition": "CHECK ((company = ANY (ARRAY['blokon'::text, 'conaser'::text, 'security'::text, 'newcentury'::text])))"
+        },
+        {
+          "name": "km_employee_registrations_pkey",
+          "definition": "PRIMARY KEY (request_id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "bitacora_newcentury",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": "'NEW CENTURY'::text",
+          "notnull": true
+        },
+        {
+          "name": "area_employee",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "brand",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "plate",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "area_request",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "origin",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "destination",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "time_start",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "time_end",
+          "type": "time without time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_initial",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_final",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_travel",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "management_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "order_reference",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "employee_observation",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "support_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_traccar",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "difference_km",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "review_status",
+          "type": "text",
+          "default": "'Pendiente'::text",
+          "notnull": true
+        },
+        {
+          "name": "odometer_start_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "odometer_end_path",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX bitacora_newcentury_pkey ON public.bitacora_newcentury USING btree (id)",
+        "CREATE INDEX bitacora_newcentury_employee_id_date_idx ON public.bitacora_newcentury USING btree (employee_id, date DESC)",
+        "CREATE INDEX bitacora_newcentury_vehicle_id_date_idx ON public.bitacora_newcentury USING btree (vehicle_id, date DESC)",
+        "CREATE UNIQUE INDEX bitacora_newcentury_andrew_historical_unique ON public.bitacora_newcentury USING btree (employee_id, date, km_initial, km_final) WHERE ((employee_id = 'NEW-bfafaa9052864ce9b55f0a72cce59fc4'::text) AND (order_reference = 'EXCEPCION_HISTORICA_ANDREW_20261014'::text))"
+      ],
+      "constraints": [
+        {
+          "name": "bitacora_blokon_km_check",
+          "definition": "CHECK ((km_final >= km_initial))"
+        },
+        {
+          "name": "bitacora_blokon_review_status_check",
+          "definition": "CHECK ((review_status = ANY (ARRAY['Pendiente'::text, 'Aprobado'::text, 'Revisar'::text, 'Rechazado'::text])))"
+        },
+        {
+          "name": "bitacora_newcentury_employee_id_fkey",
+          "definition": "FOREIGN KEY (employee_id) REFERENCES employees_newcentury(id)"
+        },
+        {
+          "name": "bitacora_newcentury_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "bitacora_newcentury_required_or_two_oct_2026_historical",
+          "definition": "CHECK ((((time_start IS NOT NULL) AND (time_end IS NOT NULL) AND (km_initial IS NOT NULL) AND (km_final IS NOT NULL) AND (km_travel IS NOT NULL) AND (odometer_start_path IS NOT NULL) AND (odometer_end_path IS NOT NULL)) OR ((employee_id = 'NEW-c99ac78a86f14357a7718b712d92214c'::text) AND (((id = 'cb335120-4bbe-4c13-b150-837657652d48'::uuid) AND (date = '2026-10-01'::date)) OR ((id = '408597a9-bd25-4eef-8a7c-e01a42307e71'::uuid) AND (date = '2026-10-10'::date))) AND (origin = 'Bolonia'::text) AND (destination = 'Blok on Mateare'::text) AND (order_reference = 'EXCEPCION_HISTORICA_20261012'::text)) OR ((employee_id = 'NEW-bfafaa9052864ce9b55f0a72cce59fc4'::text) AND (vehicle_id = 'VEH-bfafaa9052864ce9b55f0a72cce59fc4'::text) AND (order_reference = 'EXCEPCION_HISTORICA_ANDREW_20261014'::text) AND (km_travel = (km_final - km_initial)) AND ((km_traccar IS NULL) OR (km_traccar = km_travel)) AND ((difference_km IS NULL) OR (difference_km = (0)::numeric)) AND (employee_observation IS NULL) AND ((((((((date = '2026-09-29'::date) AND (km_initial = (34066)::numeric) AND (km_final = (34084)::numeric)) OR ((date = '2026-09-29'::date) AND (km_initial = (34084)::numeric) AND (km_final = (34100)::numeric))) OR ((date = '2026-09-30'::date) AND (km_initial = (34100)::numeric) AND (km_final = (34118)::numeric))) OR ((date = '2026-09-30'::date) AND (km_initial = (34118)::numeric) AND (km_final = (34134)::numeric))) OR ((date = '2026-10-01'::date) AND (km_initial = (34134)::numeric) AND (km_final = (34152)::numeric))) OR ((date = '2026-10-01'::date) AND (km_initial = (34152)::numeric) AND (km_final = (34168)::numeric))) OR ((date = '2026-10-02'::date) AND (km_initial = (34168)::numeric) AND (km_final = (34186)::numeric))))))"
+        },
+        {
+          "name": "bitacora_newcentury_vehicle_id_fkey",
+          "definition": "FOREIGN KEY (vehicle_id) REFERENCES vehicles_newcentury(id)"
+        }
+      ]
+    },
+    {
+      "rls": true,
+      "name": "km_fuel_renditions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_id",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_name",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "employee_area",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "submitted_by",
+          "type": "uuid",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "vehicle_key",
+          "type": "text",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "fuel_date",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "fuel_amount",
+          "type": "numeric(12,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "fuel_price",
+          "type": "numeric(12,4)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "period_from",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "period_to",
+          "type": "date",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_since",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_period",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "liters",
+          "type": "numeric(14,6)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "km_per_liter",
+          "type": "numeric(14,6)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "next_amount",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'Pendiente'::text",
+          "notnull": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "reviewed_by",
+          "type": "uuid",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true
+        },
+        {
+          "name": "voucher_number",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "fuel_type",
+          "type": "text",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "odometer_initial",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "odometer_final",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_registered",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "km_gap",
+          "type": "numeric(14,2)",
+          "default": null,
+          "notnull": false
+        },
+        {
+          "name": "voucher_date",
+          "type": "date",
+          "default": null,
+          "notnull": false
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX km_fuel_renditions_pkey ON public.km_fuel_renditions USING btree (id)",
+        "CREATE UNIQUE INDEX km_fuel_renditions_active_once ON public.km_fuel_renditions USING btree (company, employee_id, vehicle_key, period_from, period_to) WHERE (status <> 'Anulado'::text)",
+        "CREATE INDEX km_fuel_renditions_find_idx ON public.km_fuel_renditions USING btree (company, period_to DESC, employee_id)",
+        "CREATE UNIQUE INDEX km_fuel_renditions_active_period_once ON public.km_fuel_renditions USING btree (company, employee_id, period_from, period_to) WHERE (status <> 'Anulado'::text)"
+      ],
+      "constraints": [
+        {
+          "name": "km_fuel_renditions_check",
+          "definition": "CHECK (((fuel_date <= period_to) AND (period_from <= period_to)))"
+        },
+        {
+          "name": "km_fuel_renditions_company_check",
+          "definition": "CHECK ((company = ANY (ARRAY['blokon'::text, 'conaser'::text, 'security'::text, 'newcentury'::text])))"
+        },
+        {
+          "name": "km_fuel_renditions_fuel_amount_check",
+          "definition": "CHECK ((fuel_amount > (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_fuel_price_check",
+          "definition": "CHECK ((fuel_price > (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_gasoline_type_check",
+          "definition": "CHECK (((fuel_type IS NULL) OR (fuel_type = ANY (ARRAY['super'::text, 'regular'::text, 'diesel'::text]))))"
+        },
+        {
+          "name": "km_fuel_renditions_km_per_liter_check",
+          "definition": "CHECK ((km_per_liter > (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_km_period_check",
+          "definition": "CHECK ((km_period >= (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_km_since_check",
+          "definition": "CHECK ((km_since >= (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_liters_check",
+          "definition": "CHECK ((liters > (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_next_amount_check",
+          "definition": "CHECK ((next_amount >= (0)::numeric))"
+        },
+        {
+          "name": "km_fuel_renditions_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "km_fuel_renditions_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['Pendiente'::text, 'Verificado'::text, 'Anulado'::text])))"
+        }
+      ]
+    }
+  ],
+  "triggers": [
+    "CREATE TRIGGER km_relay_protect_completed_jobs BEFORE UPDATE OF status ON public.km_traccar_relay_jobs FOR EACH ROW EXECUTE FUNCTION km_relay_protect_completed_jobs()"
+  ],
+  "functions": [
+    "CREATE OR REPLACE FUNCTION public.km_claim_traccar_relay_jobs(p_limit integer DEFAULT 30)\n RETURNS SETOF km_traccar_relay_jobs\n LANGUAGE sql\n SET search_path TO ''\nAS $function$\n update public.km_traccar_relay_jobs j\n set status='processing', lease_until=now()+interval '45 seconds', attempts=j.attempts+1\n where j.id in (\n  select q.id from public.km_traccar_relay_jobs q\n  where q.expires_at>now() and q.available_at<=now()\n    and (q.status='queued' or q.status='processing' and q.lease_until<now())\n  order by q.available_at,q.created_at\n  for update skip locked limit greatest(1,least(p_limit,100))\n ) returning j.*\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_gps_trip_report(p_trip_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare\n t public.km_mobile_trips%rowtype;\n p record;\n anchor_lat float8; anchor_lon float8; anchor_accuracy float8; anchor_time timestamptz;\n first_time timestamptz; last_time timestamptz;\n prev_lat float8; prev_lon float8; step_distance float8;\n meters float8:=0; distance float8; seconds float8; threshold float8;\n total integer:=0; accepted integer:=0; rejected integer:=0; jitter integer:=0;\n missing_accuracy integer:=0; gaps integer:=0; conflicts integer:=0;\n coords jsonb:='[]'::jsonb; segments jsonb:='[]'::jsonb;\n duration float8; status text;\nbegin\n select * into t from public.km_mobile_trips where id=p_trip_id;\n if not found then return jsonb_build_object('ok',false,'code','TRIP_NOT_FOUND'); end if;\n -- Include only this device's fixes captured inside the recorded trip interval.\n -- Late uploads remain visible when the report is queried again.\n for p in select * from public.km_gps_positions\n where device_id=t.device_id and recorded_at>=t.started_at and recorded_at<=t.ended_at\n order by recorded_at,id\n loop\n   total:=total+1;\n   if not p.valid or p.mock or p.accuracy_m>50 or p.speed_kmh>160 then\n     rejected:=rejected+1; continue;\n   end if;\n   if p.accuracy_m is null then missing_accuracy:=missing_accuracy+1; end if;\n   if anchor_time is not null then\n     seconds:=extract(epoch from(p.recorded_at-last_time));\n     if seconds<=0 then conflicts:=conflicts+1; rejected:=rejected+1; continue; end if;\n     distance:=6371008.8*2*asin(sqrt(least(1.0,greatest(0.0,\n       power(sin(radians(p.latitude-anchor_lat)/2),2)+\n       cos(radians(anchor_lat))*cos(radians(p.latitude))*\n       power(sin(radians(p.longitude-anchor_lon)/2),2)))));\n     if seconds>120 then\n       gaps:=gaps+1;\n       if jsonb_array_length(coords)>0 then segments:=segments||jsonb_build_array(coords); end if;\n       coords:='[]'::jsonb;\n     else\n       step_distance:=6371008.8*2*asin(sqrt(least(1.0,greatest(0.0,\n       power(sin(radians(p.latitude-prev_lat)/2),2)+cos(radians(prev_lat))*cos(radians(p.latitude))*\n       power(sin(radians(p.longitude-prev_lon)/2),2)))));\n       if step_distance/seconds*3.6>160 then rejected:=rejected+1; continue; end if;\n       threshold:=greatest(5.0,least(25.0,greatest(coalesce(anchor_accuracy,5),coalesce(p.accuracy_m,5))));\n       if distance<threshold then\n         jitter:=jitter+1; accepted:=accepted+1; last_time:=p.recorded_at;\n         -- Keep the spatial anchor to preserve slow movement; temporal continuity uses last_time.\n         prev_lat:=p.latitude;prev_lon:=p.longitude;\n         continue;\n       end if;\n       meters:=meters+distance;\n     end if;\n   end if;\n   accepted:=accepted+1;\n   first_time:=coalesce(first_time,p.recorded_at); last_time:=p.recorded_at;\n   coords:=coords||jsonb_build_array(jsonb_build_array(p.longitude,p.latitude));\n   anchor_lat:=p.latitude;anchor_lon:=p.longitude;anchor_accuracy:=p.accuracy_m;anchor_time:=p.recorded_at;\n   prev_lat:=p.latitude;prev_lon:=p.longitude;\n end loop;\n if jsonb_array_length(coords)>0 then segments:=segments||jsonb_build_array(coords); end if;\n duration:=extract(epoch from(t.ended_at-t.started_at));\n status:=case\n when accepted<2 then 'sin_gps_suficiente'\n when duration<180 then 'recorrido_menor_3_minutos'\n when gaps>0 or rejected>0 or missing_accuracy>0\n or first_time>t.started_at+interval '120 seconds'\n or last_time<t.ended_at-interval '120 seconds'\n then 'gps_incompleto_o_por_revisar'\n else 'gps_registrado' end;\n return jsonb_build_object('ok',true,'trip_id',t.id,'entry_id',t.entry_id,\n 'company',t.company,'started_at',t.started_at,'ended_at',t.ended_at,\n 'duration_seconds',duration,\n 'distance_km',case when accepted>=2 then round((meters/1000)::numeric,3) else null end,\n 'gps_span_seconds',coalesce(extract(epoch from(last_time-first_time)),0),\n 'points_total',total,'points_usable',accepted,'points_rejected',rejected,\n 'points_without_accuracy',missing_accuracy,'stationary_or_small_moves',jitter,\n 'gaps',gaps,'timestamp_conflicts',conflicts,'status',status,'segments',segments,\n 'calculation','gps_haversine_v1','max_accuracy_m',50,'max_gap_seconds',120,\n 'max_speed_kmh',160,'minimum_duration_seconds',180);\nend;\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_ingest_position(p_unique_id text, p_token_hash text, p_position jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare\n v_device uuid;\n v_credential public.km_gps_credentials%rowtype;\n v_id bigint;\n v_time timestamptz;\n v_window timestamptz:=date_trunc('minute',clock_timestamp());\nbegin\n select d.id into v_device from public.km_mobile_devices d\n join public.km_gps_credentials c on c.device_id=d.id\n where d.traccar_unique_id=p_unique_id and d.active and d.activated_at is not null\n and c.enabled and c.token_hash=p_token_hash;\n if v_device is null then return jsonb_build_object('ok',false,'code','UNAUTHORIZED'); end if;\n select * into v_credential from public.km_gps_credentials where device_id=v_device for update;\n -- Recheck after acquiring the lock in case credentials were rotated or disabled.\n if not v_credential.enabled or v_credential.token_hash<>p_token_hash then\n   return jsonb_build_object('ok',false,'code','UNAUTHORIZED');\n end if;\n v_time:=(p_position->>'recorded_at')::timestamptz;\n if v_time is null or not isfinite(v_time) or v_time<clock_timestamp()-interval '30 days'\n or v_time>clock_timestamp()+interval '5 minutes' then\n   return jsonb_build_object('ok',false,'code','INVALID_TIMESTAMP');\n end if;\n if v_credential.rate_window=v_window and v_credential.rate_count>=120 then\n   return jsonb_build_object('ok',false,'code','RATE_LIMITED');\n end if;\n insert into public.km_gps_positions\n (device_id,recorded_at,latitude,longitude,accuracy_m,speed_kmh,heading_deg,altitude_m,battery_pct,valid,mock,source)\n values(v_device,v_time,(p_position->>'latitude')::float8,(p_position->>'longitude')::float8,\n (p_position->>'accuracy_m')::float8,(p_position->>'speed_kmh')::float8,\n (p_position->>'heading_deg')::float8,(p_position->>'altitude_m')::float8,\n (p_position->>'battery_pct')::float8,coalesce((p_position->>'valid')::boolean,true),\n coalesce((p_position->>'mock')::boolean,false),p_position->>'source')\n on conflict(device_id,recorded_at,latitude,longitude) do nothing returning id into v_id;\n update public.km_gps_credentials set last_received_at=clock_timestamp(),\n rate_count=case when rate_window=v_window then rate_count+1 else 1 end,rate_window=v_window\n where device_id=v_device;\n return jsonb_build_object('ok',true,'duplicate',v_id is null);\nend;\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_my_report(p_from date, p_to date)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\r\ndeclare v_uid uuid:=(select auth.uid()); profiles jsonb; items jsonb; total numeric; row_count bigint;\r\nbegin\r\n if v_uid is null then raise exception 'Debe iniciar sesión' using errcode='42501'; end if;\r\n if p_from is null or p_to is null or not isfinite(p_from) or not isfinite(p_to)\r\n or p_to<p_from or p_to-p_from>365 then\r\n raise exception 'Seleccione un período válido de hasta 366 días' using errcode='22023'; end if;\r\n select coalesce(jsonb_agg(x order by x.company,x.name),'[]'::jsonb) into profiles\r\n from (\r\n   select 'blokon' as company,'BLOKON' as company_name,id as employee_id,name,area from public.employees_blokon\r\n   union all\r\n   select 'conaser','CONASER',id,name,area from public.employees_conaser\r\n   union all\r\n   select 'security','NEW CENTURY SECURITY',id,name,area from public.employees_security\r\n   union all\r\n   select 'newcentury','NEW CENTURY',id,name,area from public.employees_newcentury\r\n ) x where exists (select 1 from public.km_report_access a\r\n   where a.user_id=v_uid and a.active and a.company=x.company and a.employee_id=x.employee_id);\r\n if jsonb_array_length(profiles)=0 then raise exception 'Su cuenta no tiene una bitácora habilitada' using errcode='42501'; end if;\r\n select count(*) into row_count from public.bitacora_consolidada where date between p_from and p_to\r\n and exists (select 1 from public.km_report_access a where a.user_id=v_uid and a.active\r\n   and a.employee_id=bitacora_consolidada.employee_id and a.company=case bitacora_consolidada.company\r\n   when 'BLOKON' then 'blokon' when 'CONASER' then 'conaser'\r\n   when 'NEW CENTURY SECURITY' then 'security' when 'NEW CENTURY' then 'newcentury' end);\r\n if row_count>5000 then raise exception 'El período contiene demasiados registros; seleccione un rango menor' using errcode='22023'; end if;\r\n select coalesce(jsonb_agg(x order by x.date,x.time_start,x.id),'[]'::jsonb),\r\n        coalesce(sum(x.km_travel),0) into items,total\r\n from (\r\n select id,date,employee_id,employee_name,company,area_employee,vehicle_id,vehicle_type,\r\n brand,plate,area_request,origin,destination,time_start,time_end,km_initial,km_final,km_travel,\r\n management_type,order_reference,result,employee_observation,review_status,km_traccar,difference_km,\r\n odometer_start_path,odometer_end_path,support_path\r\n from public.bitacora_consolidada where date between p_from and p_to\r\n and exists (select 1 from public.km_report_access a where a.user_id=v_uid and a.active\r\n   and a.employee_id=bitacora_consolidada.employee_id and a.company=case bitacora_consolidada.company\r\n   when 'BLOKON' then 'blokon' when 'CONASER' then 'conaser'\r\n   when 'NEW CENTURY SECURITY' then 'security' when 'NEW CENTURY' then 'newcentury' end)\r\n ) x;\r\n return jsonb_build_object('profiles',profiles,'from',p_from,'to',p_to,'items',items,\r\n 'count',row_count,'total_km',total,'read_only',true);\r\nend;\r\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_register_employee(p_request_id uuid, p_actor_id uuid, p_user_id uuid, p_data jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare c text; e text; v text; saved public.km_employee_registrations; associated text; enabled boolean;\nbegin\n c:=p_data->>'company';\n if c is null or c not in ('blokon','conaser','security','newcentury') or p_request_id is null or p_actor_id is null or p_user_id is null\n or length(trim(coalesce(p_data->>'name','')))<2 or length(p_data->>'name')>200\n or length(trim(coalesce(p_data->>'area','')))<2 or length(p_data->>'area')>120 then\n raise exception 'Datos del alta inválidos' using errcode='22023'; end if;\n perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_request_id::text,0));\n select * into saved from public.km_employee_registrations where request_id=p_request_id;\n if found then\n  if saved.actor_id<>p_actor_id or saved.user_id<>p_user_id or saved.payload<>p_data then raise exception 'Alta utilizada con otros datos' using errcode='23505'; end if;\n  return jsonb_build_object('employeeId',saved.employee_id,'vehicleId',saved.vehicle_id,'name',p_data->>'name','repeated',true);\n end if;\n e:=upper(left(c,3))||'-'||replace(p_request_id::text,'-','');\n v:=nullif(p_data->>'vehicleId','');\n if v is not null then\n  execute format('select employee_id,active from public.%I where id=$1 for update','vehicles_'||c) into associated,enabled using v;\n  if enabled is distinct from true or associated is not null then raise exception 'Vehículo no disponible' using errcode='23505'; end if;\n else\n  if length(trim(coalesce(p_data->>'type','')))<2 or length(p_data->>'type')>120 or length(coalesce(p_data->>'plate',''))>40 then raise exception 'Vehículo inválido' using errcode='22023'; end if;\n  v:='VEH-'||replace(p_request_id::text,'-','');\n end if;\n execute format('insert into public.%I(id,name,area,role,active) values($1,$2,$3,$4,true)','employees_'||c)\n using e,p_data->>'name',p_data->>'area',nullif(p_data->>'role','');\n if nullif(p_data->>'vehicleId','') is null then\n  execute format('insert into public.%I(id,type,brand,plate,employee_id,active) values($1,$2,$3,$4,$5,true)','vehicles_'||c)\n  using v,p_data->>'type',nullif(p_data->>'brand',''),nullif(p_data->>'plate',''),e;\n else execute format('update public.%I set employee_id=$1 where id=$2','vehicles_'||c) using e,v;\n end if;\n insert into public.km_report_access(user_id,company,employee_id,active) values(p_user_id,c,e,true);\n insert into public.km_employee_registrations(request_id,actor_id,user_id,company,employee_id,vehicle_id,payload)\n values(p_request_id,p_actor_id,p_user_id,c,e,v,p_data);\n return jsonb_build_object('employeeId',e,'vehicleId',v,'name',p_data->>'name','repeated',false);\nend;\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_relay_protect_completed_jobs()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nBEGIN\n  -- A stale, parallel failure must not change a successfully delivered position back to queued.\n  IF OLD.status = 'done' AND NEW.status <> 'done' THEN\n    RETURN NULL;\n  END IF;\n  RETURN NEW;\nEND;\n$function$\n",
+    "CREATE OR REPLACE FUNCTION public.km_rotate_gps_token(p_device_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare v_token text; v_unique text;\nbegin\n select traccar_unique_id into v_unique from public.km_mobile_devices\n where id=p_device_id and active and activated_at is not null for update;\n if not found then raise exception 'Dispositivo inexistente, inactivo o sin activar'; end if;\n v_token:=encode(extensions.gen_random_bytes(32),'hex');\n insert into public.km_gps_credentials(device_id,token_hash)\n values(p_device_id,encode(extensions.digest(v_token,'sha256'),'hex'))\n on conflict(device_id) do update set token_hash=excluded.token_hash,enabled=true,\n created_at=clock_timestamp(),rate_window=null,rate_count=0;\n return jsonb_build_object('device_id',p_device_id,'unique_id',v_unique,'token',v_token);\nend;\n$function$\n"
+  ]
+}

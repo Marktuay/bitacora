@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Bitacora KM synthetic test">
+  <node id="1" lat="12.000000" lon="-86.000000" />
+  <node id="2" lat="12.000000" lon="-85.999700" />
+  <node id="3" lat="12.000000" lon="-85.999400" />
+  <node id="4" lat="12.000000" lon="-85.999100" />
+  <node id="5" lat="12.000000" lon="-85.998800" />
+  <node id="6" lat="12.000000" lon="-85.998500" />
+  <node id="7" lat="12.000000" lon="-85.998200" />
+  <node id="8" lat="12.000000" lon="-85.997900" />
+  <way id="100"><nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="4"/><nd ref="5"/><nd ref="6"/><nd ref="7"/><nd ref="8"/><tag k="highway" v="residential"/><tag k="name" v="Synthetic test street"/></way>
+</osm>

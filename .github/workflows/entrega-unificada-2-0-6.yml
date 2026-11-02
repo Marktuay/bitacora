@@ -1,0 +1,115 @@
+name: Entrega unificada Informatica Bitacora KM 2.0.6
+on:
+  push:
+    branches:
+      - fix/apk-2-0-6-reautorizar-pendientes-2026-10-20
+    paths:
+      - '.github/workflows/entrega-unificada-2-0-6.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  paquete:
+    runs-on: windows-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Verificar correcciones de servidor
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          node --check lib/mobile-api.js
+          npm ci --ignore-scripts
+          if($LASTEXITCODE -ne 0){throw 'No se instalaron dependencias de prueba'}
+          node --test tests/mobile-enrollment.test.cjs
+          if($LASTEXITCODE -ne 0){throw 'Fallaron pruebas de enrolamiento'}
+      - name: Compilar servidor Windows desde el codigo actualizado 2.0.6
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $dest=Join-Path $env:GITHUB_WORKSPACE 'Entrega\Servidor'
+          .\blazor\Build-Windows.ps1 -Destination $dest
+          if($LASTEXITCODE -and $LASTEXITCODE -ne 0){throw 'Fallo compilacion'}
+          if(!(Test-Path (Join-Path $dest 'Bitacora.Web.exe'))){throw 'No se genero ejecutable'}
+          $runtime=Join-Path $dest 'Engine\lib\mobile-api.js'
+          if(!(Test-Path $runtime)){throw 'No se incluyo API movil actualizada'}
+          $actual=(Get-FileHash $runtime -Algorithm SHA256).Hash
+          $origen=(Get-FileHash 'lib\mobile-api.js' -Algorithm SHA256).Hash
+          if($actual -ne $origen){throw 'API movil compilada no coincide con fuentes 2.0.6'}
+      - name: Adjuntar las dos APK 2.0.6 ya publicadas
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference='Stop'
+          New-Item -ItemType Directory -Path 'Entrega\Android' -Force | Out-Null
+          gh release download 'apk-bitacora-postgresql-v2-0-6-operacion-2026-10-20' --pattern 'Bitacora-KM-PostgreSQL-Operacion-v2.0.6.apk' --pattern 'CERTIFICADO_APK_2.0.6.txt' --dir 'Entrega\Android' --repo $env:GITHUB_REPOSITORY
+          if($LASTEXITCODE -ne 0){throw 'Falta APK operativa o certificado'}
+          gh release download 'apk-bitacora-postgresql-v2-0-6-prueba-2026-10-20' --pattern 'Bitacora-KM-PostgreSQL-Prueba-v2.0.6.apk' --dir 'Entrega\Android' --repo $env:GITHUB_REPOSITORY
+          if($LASTEXITCODE -ne 0){throw 'Falta APK de prueba'}
+          $apk='Entrega\Android\Bitacora-KM-PostgreSQL-Operacion-v2.0.6.apk'
+          if((Get-FileHash $apk -Algorithm SHA256).Hash.ToLower() -ne 'ba0fbf9bce86f95c81d035fe9ecc10c0b910ebe9673ef02b4a5d2f9df0b5e3d9'){throw 'Hash APK operativa distinto de la publicacion verificada'}
+      - name: Incluir codigo fuente completo y documentacion
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          git archive --format=zip --output="$env:RUNNER_TEMP\fuentes-bitacora.zip" HEAD
+          if($LASTEXITCODE -ne 0){throw 'No se pudo archivar fuente'}
+          Expand-Archive -LiteralPath "$env:RUNNER_TEMP\fuentes-bitacora.zip" -DestinationPath 'Entrega\CodigoFuente' -Force
+          New-Item -ItemType Directory -Path 'Entrega\Documentacion' -Force | Out-Null
+          Copy-Item 'blazor\README.md' 'Entrega\Documentacion\MANUAL-MIGRACION.md'
+          Copy-Item 'blazor\ENTREGA-INFORMATICA.md' 'Entrega\Documentacion\ENTREGA-TECNICA-ANTERIOR.md'
+          Copy-Item 'blazor\VERIFICACION.md' 'Entrega\Documentacion\VERIFICACION-ANTERIOR.md'
+          Copy-Item 'blazor\PLAN_TRANSICION_SIN_PARAR.md' 'Entrega\Documentacion\PLAN-DE-CONTINUIDAD.md'
+          $sha=(git rev-parse HEAD).Trim()
+          @"
+          BITACORA KM — ENTREGA UNIFICADA PARA INFORMATICA
+          Version del codigo: correcciones PostgreSQL/Blazor y APK Android 2.0.6
+          Revision exacta GitHub: $sha
+
+          CONTENIDO
+          1. Servidor/      Aplicacion Windows compilada desde la rama con correcciones 2.0.6, Blazor/.NET 10 y motor Node
+          2. Android/       APK operativa 2.0.6, APK de prueba 2.0.6 y certificado
+          3. CodigoFuente/ Repositorio completo, misma revision que el servidor publicado
+          4. Documentacion/Manual-MIGRACION y documentos previos de continuidad
+          5. SHA256.txt     Huellas de integridad de los archivos incluidos
+
+          PASOS DE INFORMATICA
+          - Este ZIP sustituye al paquete de software 2.0.4 como base para revisar la version 2.0.6.
+          - No ejecutar migraciones destructivas ni reinicializar PostgreSQL; mantener base y datos existentes.
+          - Antes de cualquier cambio, respaldar PostgreSQL bitacora_km_blazor, archivos privados/fotos e historial de Traccar en la PC operativa y probar la restauracion.
+          - Mantener usuarios, UUID, roles, aprobaciones, km_mobile_devices, cola GPS, fotografias e historico; no instalar sin conciliar conteos.
+          - Colocar el servidor en la infraestructura corporativa, configurar servicios, permisos, HTTPS y dominio estable; revisar los ajustes privados fuera del paquete.
+          - La APK operativa 2.0.6 incluida apunta al HTTPS del piloto https://bitacorakmnc26.shares.zrok.io.
+          - Si cambia el dominio, reconstruir APK operativa con el destino definitivo y la misma firma de actualizacion, sin borrar datos de los celulares.
+          - Probar en un dispositivo: inicio, nuevo recorrido, odometro, fotos, GPS offline/online, sincronizacion automatica, aprobaciones, PDF y Excel.
+          - Poner en produccion y distribuir a colaboradores solo despues de pruebas y aceptacion conjunta Informatica/Auditoria.
+
+          NO INCLUYE
+          - Respaldo de la base PostgreSQL real ni archivos privados/fotografias; Informatica debe obtenerlos desde la PC operativa.
+          - Credenciales, keystore de firma, contrasenas ni certificados privados.
+          - Instaladores de PostgreSQL/Node/Traccar ni dominio corporativo.
+
+          Documentos con nombres ANTERIOR se incluyen solo como referencia historica y pueden referir a versiones de prueba antiguas.
+          "@ | Set-Content 'Entrega\LEER-PRIMERO-INFORMATICA-2.0.6.txt' -Encoding UTF8
+          $files=Get-ChildItem -Path Entrega -Recurse -File | Where-Object {$_.Name -ne 'SHA256.txt'} | Sort-Object FullName
+          $files | ForEach-Object {"$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)  $($_.FullName.Substring((Join-Path $env:GITHUB_WORKSPACE 'Entrega').Length+1))"} | Set-Content 'Entrega\SHA256.txt' -Encoding UTF8
+      - name: Publicar UN solo ZIP version 2.0.6
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference='Stop'
+          $tag='bitacora-km-entrega-unificada-v2-0-6-2026-10-21'
+          if(gh release view $tag --repo $env:GITHUB_REPOSITORY 2>$null){throw 'Ya existe la entrega: no sobrescribir'}
+          $zip='BitacoraKM-ENTREGA-INFORMATICA-UNICA-v2.0.6.zip'
+          Compress-Archive -Path 'Entrega\*' -DestinationPath $zip -CompressionLevel Optimal -Force
+          if(!(Test-Path $zip)){throw 'No se creo el ZIP'}
+          gh release create $tag $zip --repo $env:GITHUB_REPOSITORY --target $env:GITHUB_SHA --prerelease --title 'Bitacora KM - Entrega unica Informatica 2.0.6' --notes 'UN SOLO ZIP: servidor Windows Blazor/Node compilado desde la rama corregida 2.0.6, codigo fuente completo de misma revision, APK operativa 2.0.6, APK pruebas 2.0.6, certificados y manuales. No incluye base de datos ni fotos historicas ni secretos. Requiere respaldo y prueba antes de corte; APK usa HTTPS del piloto y necesita nueva compilacion si cambia el dominio.'
+          if($LASTEXITCODE -ne 0){throw 'No se publico ZIP'}

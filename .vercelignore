@@ -1,0 +1,16 @@
+supabase/
+tests/
+test-results/
+README.md
+.env*
+
+android/
+deployment/
+docs/
+third_party/
+Dockerfile
+.dockerignore
+
+releases/
+ESTADO_VERIFICACION.json
+INICIAR_BITACORA.cmd

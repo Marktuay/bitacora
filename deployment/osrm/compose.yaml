@@ -1,0 +1,11 @@
+name: bitacora-osrm
+services:
+  roads:
+    image: ghcr.io/project-osrm/osrm-backend:26.4.1-debian@sha256:6b3d7232f168289fa97ca5a27c02a47895959a2f75cdc3ebfe406f31928702e5
+    command: [osrm-routed, --algorithm, mld, --max-matching-size, '100', /data/nicaragua-latest.osrm]
+    restart: unless-stopped
+    ports: ['127.0.0.1:5000:5000']
+    volumes: ['./data:/data:ro']
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: '2'}

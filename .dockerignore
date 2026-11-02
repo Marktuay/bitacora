@@ -1,0 +1,12 @@
+**/node_modules
+**/.gradle
+**/build
+**/.git
+.env*
+.vercel
+android
+third_party
+test-results
+private
+*.zip
+*.apk

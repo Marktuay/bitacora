@@ -1,0 +1,97 @@
+name: bitacora-km
+services:
+  bitacora:
+    build: ..
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "4173"
+      TRACCAR_BASE_URL: http://traccar:8082
+      TRACCAR_INGEST_URL: http://traccar:5055
+      TRACCAR_PUBLIC_URL: https://${GPS_DOMAIN:?Configurar GPS_DOMAIN}
+      DATABASE_URL: postgres://${POSTGRES_USER:-bitacora_admin}:${POSTGRES_PASSWORD:?Definir POSTGRES_PASSWORD}@postgres-db:5432/${POSTGRES_DB:-bitacora_km_blazor}
+      BITACORA_DATA_DIR: /var/data/bitacora-soportes
+    depends_on:
+      postgres-db: {condition: service_healthy}
+    volumes:
+      - bitacora-data:/var/data/bitacora-soportes
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:4173/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging: &logging
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+
+  postgres-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bitacora_km_blazor}
+      POSTGRES_USER: ${POSTGRES_USER:-bitacora_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definir POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ../blazor/engine/schema.sql:/docker-entrypoint-initdb.d/init-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bitacora_admin} -d ${POSTGRES_DB:-bitacora_km_blazor}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: *logging
+
+  gps-db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: traccar
+      MYSQL_USER: traccar
+      MYSQL_PASSWORD: ${GPS_DB_PASSWORD:?Generar GPS_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${GPS_DB_ROOT_PASSWORD:?Generar GPS_DB_ROOT_PASSWORD}
+    volumes: [gps-db:/var/lib/mysql]
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysqladmin ping --silent']
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    logging: *logging
+
+  traccar:
+    image: traccar/traccar:6.15.3-alpine
+    restart: unless-stopped
+    depends_on:
+      gps-db: {condition: service_healthy}
+    environment:
+      CONFIG_USE_ENVIRONMENT_VARIABLES: "true"
+      DATABASE_DRIVER: com.mysql.cj.jdbc.Driver
+      DATABASE_URL: "jdbc:mysql://gps-db:3306/traccar?zeroDateTimeBehavior=round&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false&allowMultiQueries=true&autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8&sessionVariables=sql_mode=''"
+      DATABASE_USER: traccar
+      DATABASE_PASSWORD: ${GPS_DB_PASSWORD}
+      FILTER_DUPLICATE: "true"
+      LOGGER_CONSOLE: "true"
+    volumes: [gps-logs:/opt/traccar/logs]
+    logging: *logging
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?Configurar APP_DOMAIN}
+      GPS_DOMAIN: ${GPS_DOMAIN}
+      TLS_EMAIL: ${TLS_EMAIL:?Configurar TLS_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on: [bitacora, traccar]
+    logging: *logging
+
+volumes:
+  bitacora-data:
+  postgres-data:
+  gps-db:
+  gps-logs:
+  caddy-data:
+  caddy-config:

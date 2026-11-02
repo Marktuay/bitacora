@@ -1,0 +1,18 @@
+@page "/cuenta"
+@page "/cuenta.html"
+<HeadContent><title>Mi cuenta · Bitácora KM</title><link rel="stylesheet" href="/assets/styles.css"></HeadContent>
+
+<main class="shell" style="max-width:620px">
+  <div class="topbar"><div class="brand"><img src="/assets/new-century.png" alt="New Century" width="112" height="56" style="object-fit:contain"><div><h1>Mi cuenta</h1><p>Tu contraseña personal</p></div></div><div class="nav" data-auth-nav></div></div>
+  <section class="card"><h2 id="passwordTitle">Cambiar contraseña</h2><p id="accountEmail"></p><p id="passwordHint">Escribí tu contraseña actual y elegí una nueva de 8 a 128 caracteres.</p>
+    <form id="passwordForm" class="form-grid">
+      <div class="field full"><label for="currentPassword">Contraseña actual o inicial</label><input id="currentPassword" type="password" autocomplete="current-password" maxlength="256" required></div>
+      <div class="field full"><label for="newPassword">Nueva contraseña</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" required><span class="hint">Podés usar una frase con letras, números y un símbolo.</span></div>
+      <div class="field full"><label for="confirmPassword">Confirmar nueva contraseña</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></div>
+      <label class="field full" style="display:flex;flex-direction:row;align-items:center"><input id="showPassword" type="checkbox" style="width:auto">Mostrar contraseñas</label>
+      <p id="passwordMessage" class="field full" role="status" aria-live="polite"></p>
+      <button id="savePassword" class="btn primary field full" type="submit">Guardar contraseña</button>
+    </form>
+    <p><a class="btn ghost" href="/recuperar.html">¿Olvidaste tu contraseña?</a></p><p><a id="continueLink" class="btn ghost" href="/reportes">Continuar a mi bitácora</a></p>
+  </section>
+</main><script src="/assets/common.js"></script><script src="/assets/auth.js"></script><script src="/assets/account.js"></script>

@@ -1,0 +1,135 @@
+[
+  {
+    "company": "blokon",
+    "employee_id": "BLO-036",
+    "vehicle_id": "VEH-002",
+    "type": "Carro",
+    "brand": "Toyota Tercel"
+  },
+  {
+    "company": "blokon",
+    "employee_id": "BLO-065",
+    "vehicle_id": "VEH-001",
+    "type": "Moto",
+    "brand": "AKT Hunter"
+  },
+  {
+    "company": "blokon",
+    "employee_id": "BLO-CARLOS-DIAZ",
+    "vehicle_id": "VEH-016",
+    "type": "SUV / Hatchback",
+    "brand": null
+  },
+  {
+    "company": "blokon",
+    "employee_id": "BLO-001",
+    "vehicle_id": "VEH-017",
+    "type": "Carro",
+    "brand": "Suzuki"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-010",
+    "vehicle_id": "VEH-005",
+    "type": "Camioneta",
+    "brand": "Mazda"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-005",
+    "vehicle_id": "VEH-003",
+    "type": "Sedán",
+    "brand": "Hyundai"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-012",
+    "vehicle_id": "VEH-004",
+    "type": "Moto",
+    "brand": "Genesis"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-020",
+    "vehicle_id": "VEH-008",
+    "type": "Moto",
+    "brand": "AKT 150"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-013",
+    "vehicle_id": "VEH-006",
+    "type": "Moto",
+    "brand": "Pulsar"
+  },
+  {
+    "company": "conaser",
+    "employee_id": "CON-008",
+    "vehicle_id": "VEH-007",
+    "type": "Moto",
+    "brand": "Genesis"
+  },
+  {
+    "company": "newcentury",
+    "employee_id": "NC-GABRIELA-BLANDON",
+    "vehicle_id": "VEH-018",
+    "type": "Camioneta",
+    "brand": "Chevrolet"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-015",
+    "vehicle_id": "VEH-012",
+    "type": "Moto",
+    "brand": "Sky Go"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-002",
+    "vehicle_id": "VEH-011",
+    "type": "Sedán",
+    "brand": "Kia Rio"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-078",
+    "vehicle_id": "VEH-015",
+    "type": "Moto",
+    "brand": "Boxer"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-077",
+    "vehicle_id": "VEH-013",
+    "type": "Moto",
+    "brand": "Dayun"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-059",
+    "vehicle_id": "VEH-014",
+    "type": "Moto",
+    "brand": "Genesis"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-016",
+    "vehicle_id": "VEH-009",
+    "type": "Moto",
+    "brand": "Genesis"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-084",
+    "vehicle_id": "VEH-019",
+    "type": "Moto",
+    "brand": "Pulsar"
+  },
+  {
+    "company": "security",
+    "employee_id": "SEC-048",
+    "vehicle_id": "VEH-010",
+    "type": "Moto",
+    "brand": "AKT"
+  }
+]

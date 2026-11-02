@@ -1,0 +1,10 @@
+{
+  "ref": "refs/tags/v6.15.3",
+  "node_id": "MDM6UmVmNDAzODk0OTpyZWZzL3RhZ3MvdjYuMTUuMw==",
+  "url": "https://api.github.com/repos/traccar/traccar/git/refs/tags/v6.15.3",
+  "object": {
+    "sha": "5eb957893c22b988f831200e976b36262d2b8592",
+    "type": "commit",
+    "url": "https://api.github.com/repos/traccar/traccar/git/commits/5eb957893c22b988f831200e976b36262d2b8592"
+  }
+}

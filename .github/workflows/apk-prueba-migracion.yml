@@ -1,0 +1,96 @@
+name: Bitacora KM 2.0.4 - HTTPS corporativo zrok
+
+on:
+  push:
+    branches:
+      - migration/blazor-postgresql-2026-10-17
+      - delivery/apk-postgresql-configurable-2026-10-19
+    paths:
+      - '.github/workflows/apk-prueba-migracion.yml'
+      - 'android/**'
+      - 'blazor/prepare-android.mjs'
+      - 'blazor/Preparar-PC-Servidor.ps1'
+      - 'blazor/ENTREGA-OPERATIVA-2026-10-19.md'
+      - 'blazor/ENTREGA-HTTPS-FIJO-2026-10-19.md'
+      - 'blazor/Activar-HTTPS-Permanente.ps1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk-pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Preparar SDK Android
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Instalar Android API 36
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Exigir la misma firma persistente del piloto para todas las actualizaciones
+        env:
+          PILOT_KEYSTORE_B64: ${{ secrets.BITACORA_PILOT_KEYSTORE_B64 }}
+          PILOT_PASSWORD: ${{ secrets.BITACORA_PILOT_STORE_PASSWORD }}
+        run: |
+          if [ -z "$PILOT_KEYSTORE_B64" ] || [ -z "$PILOT_PASSWORD" ]; then
+            echo "::error::Falta la firma persistente del piloto. Se prohíbe generar una APK firmada temporalmente porque no podrá actualizar a las instaladas."
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/bitacora-signing"
+          printf '%s' "$PILOT_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/bitacora-signing/pilot.keystore"
+          echo "BITACORA_PILOT_KEYSTORE=$RUNNER_TEMP/bitacora-signing/pilot.keystore" >> "$GITHUB_ENV"
+          echo "BITACORA_PILOT_STORE_PASSWORD=$PILOT_PASSWORD" >> "$GITHUB_ENV"
+      - name: Preparar APK con HTTPS corporativo fijo y sin Vercel
+        run: |
+          node --check android/app/src/main/assets/mobile.js
+          node blazor/prepare-android.mjs https://bitacorakmnc26.shares.zrok.io
+          node --check blazor/AndroidRuntime/app/src/main/assets/mobile.js
+      - name: Compilar APK piloto y APK operativa no depurable
+        run: |
+          sed -i 's/release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("release") }/release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("debug") }/' blazor/AndroidRuntime/app/build.gradle.kts
+          grep -F 'release { isMinifyEnabled=false; signingConfig=signingConfigs.getByName("debug") }' blazor/AndroidRuntime/app/build.gradle.kts
+          chmod +x blazor/AndroidRuntime/gradlew
+          cd blazor/AndroidRuntime
+          ./gradlew :app:testDebugUnitTest :app:assembleVerification :app:assembleRelease --no-daemon
+      - name: Verificar archivo APK
+        run: |
+          test -s blazor/AndroidRuntime/app/build/outputs/apk/verification/app-verification.apk
+          test -s blazor/AndroidRuntime/app/build/outputs/apk/release/app-release.apk
+      - name: Verificar firma de la APK anterior
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download apk-1.4.11 --pattern 'Bitacora-KM-1.4.11.apk' --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP"
+          OLD="$RUNNER_TEMP/Bitacora-KM-1.4.11.apk"
+          NEW="blazor/AndroidRuntime/app/build/outputs/apk/release/app-release.apk"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          OLD_CERT=$("$SIGNER" verify --print-certs "$OLD" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          NEW_CERT=$("$SIGNER" verify --print-certs "$NEW" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -1)
+          test -n "$OLD_CERT" && test "$OLD_CERT" = "$NEW_CERT" || { echo "::error::La firma NO coincide con la APK instalada"; exit 1; }
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$NEW" | grep "name='ni.bitacorakm.app'"
+          if "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$NEW" | grep -q '^application-debuggable'; then
+            echo "::error::La APK operativa no debe ser depurable"; exit 1
+          fi
+      - name: Publicar APK PostgreSQL 2.0.4 con HTTPS fijo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp blazor/AndroidRuntime/app/build/outputs/apk/verification/app-verification.apk Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk
+          cp blazor/AndroidRuntime/app/build/outputs/apk/release/app-release.apk Bitacora-KM-PostgreSQL-Operacion-v2.0.4.apk
+          zip -j BitacoraKM-Entrega-Operativa-v2.0.4.zip Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk Bitacora-KM-PostgreSQL-Operacion-v2.0.4.apk blazor/Preparar-PC-Servidor.ps1 blazor/ENTREGA-OPERATIVA-2026-10-19.md blazor/ENTREGA-HTTPS-FIJO-2026-10-19.md blazor/Activar-HTTPS-Permanente.ps1
+          tag="apk-bitacora-postgresql-v2-0-4-2026-10-19"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$tag" Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk Bitacora-KM-PostgreSQL-Operacion-v2.0.4.apk BitacoraKM-Entrega-Operativa-v2.0.4.zip --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$tag" Bitacora-KM-PostgreSQL-Prueba-v2.0.4.apk Bitacora-KM-PostgreSQL-Operacion-v2.0.4.apk BitacoraKM-Entrega-Operativa-v2.0.4.zip --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title "Bitacora KM PostgreSQL 2.0.4 - URL HTTPS fija y agente" --notes "APK PostgreSQL con URL HTTPS fija en zrok sin configuracion manual de colaboradores. Prueba instala por separado; Operacion conserva el identificador y firma de la version 1.4.11. No instalar Operacion hasta sincronizar colas GPS pendientes y completar el corte final desde Supabase. Se incluye script de inicio Blazor y respaldo. Para iniciar el agente zrok2 con nombre reservado, ejecutar Activar-HTTPS-Permanente.ps1; la PC debe estar encendida y Windows con sesion iniciada."
+          fi

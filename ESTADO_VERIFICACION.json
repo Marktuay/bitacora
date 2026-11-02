@@ -1,0 +1,88 @@
+{
+  "version": "1.3.0",
+  "verificado_en_utc": "2026-09-30T20:17:05.437872+00:00",
+  "supabase": {
+    "proyecto": "ztkvymdcnpoiiqkuwgoj",
+    "estado": "ACTIVE_HEALTHY",
+    "plan": "Free",
+    "recepcion": "traccar-ingest HTTPS con credencial por dispositivo",
+    "datos_conservados": {
+      "colaboradores": 188,
+      "vehiculos": 15,
+      "bitacoras": 1,
+      "dispositivos": 1
+    },
+    "gps_reales_recibidos_nueva_nube": 0,
+    "prueba_ingest_https": "5 puntos sintéticos, recepción fuera de orden, reintento sin duplicado y rechazo de credencial incorrecta/revocada; datos de prueba eliminados",
+    "cuenta_administradora": "jorge.mayorga4@gmail.com",
+    "credenciales": "Archivo privado separado; no incluidas en este paquete"
+  },
+  "web": {
+    "pruebas_automaticas": {
+      "aprobadas": 14,
+      "fallidas": 0
+    },
+    "pruebas_reales_supabase": {
+      "verifiedAt": "2026-09-30T19:39:02.539Z",
+      "checks": [
+        "Ingreso real con Supabase; tokens solo en cookies HttpOnly",
+        "Cada cuenta descarga solamente su bitácora; acceso ajeno y anónimo rechazados",
+        "Excel y PDF reales generados correctamente",
+        "Recorridos GPS respetan propietario; colaborador no puede aprobar bitácoras",
+        "Revocación aplicada inmediatamente",
+        "Solicitud desde otro sitio rechazada"
+      ]
+    },
+    "build": "aprobado",
+    "navegador_automatizado": "Navegador remoto: logo e inicio de sesión publicados; Reportes redirige al ingreso sin sesión. Las pantallas con sesión se verifican por API.",
+    "pruebas_produccion": {
+      "verifiedAt": "2026-09-30T20:15:32.733Z",
+      "base": "https://bitacora-km.vercel.app",
+      "checks": [
+        "Ingreso real con Supabase; tokens solo en cookies HttpOnly",
+        "Cada cuenta descarga solamente su bitácora; acceso ajeno y anónimo rechazados",
+        "Excel y PDF reales generados correctamente",
+        "Recorridos GPS respetan propietario; colaborador no puede aprobar bitácoras",
+        "Revocación aplicada inmediatamente",
+        "Solicitud desde otro sitio rechazada"
+      ]
+    },
+    "cuentas_temporales_eliminadas": true
+  },
+  "android": {
+    "version_code": 3,
+    "compilado": true,
+    "firma_misma_que_1_2_0": true,
+    "tipo_firma": "debug original del piloto; no firma institucional",
+    "alineacion": "aprobada",
+    "assets_logo_html_js": "verificados dentro del APK y coinciden con el código",
+    "sha256": "fd06cf693a36a12d7e76da4b7b43c36676a67ba2313f03c23688f7f7120bc1ba",
+    "bytes": 5685244,
+    "lint": {
+      "errores": 0,
+      "advertencias": 27
+    },
+    "prueba_fisica_1_3_0": false
+  },
+  "vercel": {
+    "proyecto": "prj_mTmJvnUeELvkvWxnluTX2VKD5eUg",
+    "dominio": "https://bitacora-km.vercel.app",
+    "version_1_3_0_publicada": true,
+    "deployment_id": "dpl_CDV1uiX1wqhmBEZkXy8i4B89ZTzR",
+    "estado": "READY",
+    "fuente": "Vercel Drop",
+    "health_publico": {
+      "ok": true,
+      "database": true,
+      "gpsProvider": "supabase",
+      "individualAccess": true,
+      "version": "1.3.0"
+    },
+    "acceso_publico": "Dominio principal accesible sin sesión de Vercel; API de reportes exige sesión individual de Bitácora KM."
+  },
+  "pendientes": [
+    "Instalar actualización sobre APK anterior, sin desinstalar",
+    "Migrar teléfono de PC a nube y probar recorrido real, fotos, sincronización, mapa y exportaciones"
+  ],
+  "historial": "docs/HISTORIAL_VERIFICACION_1.2.0.json conserva evidencia del piloto anterior; no acredita la nueva versión"
+}

@@ -1,0 +1,112 @@
+{
+  "sourceCommit": "901bbec2b78080d3a73f4e7cae7f10f853680c55",
+  "architecture": "Blazor static SSR + existing local Node.js business engine + direct PostgreSQL",
+  "pages": [
+    {
+      "source": "index.html",
+      "component": "Index.razor",
+      "routes": [
+        "/",
+        "/index.html"
+      ]
+    },
+    {
+      "source": "form.html",
+      "component": "Form.razor",
+      "routes": [
+        "/blokon",
+        "/conaser",
+        "/security",
+        "/newcentury",
+        "/form.html"
+      ]
+    },
+    {
+      "source": "auditoria.html",
+      "component": "Auditoria.razor",
+      "routes": [
+        "/auditoria",
+        "/auditoria.html"
+      ]
+    },
+    {
+      "source": "reportes.html",
+      "component": "Reportes.razor",
+      "routes": [
+        "/reportes",
+        "/reportes.html"
+      ]
+    },
+    {
+      "source": "android.html",
+      "component": "Android.razor",
+      "routes": [
+        "/android",
+        "/android.html"
+      ]
+    },
+    {
+      "source": "login.html",
+      "component": "Login.razor",
+      "routes": [
+        "/login",
+        "/login.html"
+      ]
+    },
+    {
+      "source": "cuenta.html",
+      "component": "Cuenta.razor",
+      "routes": [
+        "/cuenta",
+        "/cuenta.html"
+      ]
+    },
+    {
+      "source": "recuperar.html",
+      "component": "Recuperar.razor",
+      "routes": [
+        "/recuperar",
+        "/recuperar.html"
+      ]
+    },
+    {
+      "source": "accesos.html",
+      "component": "Accesos.razor",
+      "routes": [
+        "/accesos",
+        "/accesos.html"
+      ]
+    },
+    {
+      "source": "recorrido.html",
+      "component": "Recorrido.razor",
+      "routes": [
+        "/recorrido",
+        "/recorrido.html"
+      ]
+    },
+    {
+      "source": "colaboradores.html",
+      "component": "Colaboradores.razor",
+      "routes": [
+        "/colaboradores",
+        "/colaboradores.html"
+      ]
+    },
+    {
+      "source": "jefes.html",
+      "component": "Jefes.razor",
+      "routes": [
+        "/jefes",
+        "/jefes.html"
+      ]
+    },
+    {
+      "source": "mobile-auth.html",
+      "component": "MobileAuth.razor",
+      "routes": [
+        "/mobile-auth.html"
+      ]
+    }
+  ]
+}
