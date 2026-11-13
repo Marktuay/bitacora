@@ -10,9 +10,15 @@ function getCompany(value) {
   return COMPANY[key] || null;
 }
 
-function supabaseKey() { return process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ''; }
+function supabaseKey() {
+  if (process.env.DATABASE_URL) return process.env.LOCAL_AUTH_SECRET || 'bitacora-km-auth-secret-2026';
+  return process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+}
 
-function dbReady() { return Boolean(process.env.SUPABASE_URL && supabaseKey()); }
+function dbReady() {
+  if (process.env.DATABASE_URL) return true;
+  return Boolean(process.env.SUPABASE_URL && supabaseKey());
+}
 
 async function readJson(req) {
   if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) return req.body;
@@ -32,6 +38,9 @@ function send(res, status, payload) {
 }
 
 async function sb(path, options = {}) {
+  if (process.env.DATABASE_URL) {
+    return require('../lib/adapter.cjs').rest(path, options);
+  }
   if (!dbReady()) throw new Error('SUPABASE_NOT_CONFIGURED');
   const url = `${process.env.SUPABASE_URL.replace(/\/$/, '')}${path}`;
   const headers = {

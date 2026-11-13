@@ -43,7 +43,8 @@ module.exports = async function handler(req, res) {
       const data = await sb(`/storage/v1/object/sign/${encodeURIComponent(bucket())}/${safePath(path)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:900})});
       const signed = data.signedURL || data.signedUrl;
       if (!signed) throw new Error('URL de soporte no disponible');
-      const base = process.env.SUPABASE_URL.replace(/\/$/,'');
+      if (signed.startsWith('/evidence/')) return send(res,200,{url:signed});
+      const base = (process.env.SUPABASE_URL || process.env.BITACORA_PUBLIC_URL || '').replace(/\/$/,'');
       return send(res,200,{url:signed.startsWith('http') ? signed : `${base}${signed.startsWith('/storage/v1/') ? '' : '/storage/v1'}${signed}`});
     } catch(error) { console.error(error); return send(res,error.status||500,{error:error.status?error.message:'No fue posible abrir el soporte'}); }
   }

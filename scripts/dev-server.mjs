@@ -12,6 +12,9 @@ const apis = new Set(['catalog','entries','health','latest','report','report-xls
 http.createServer(async(req,res)=>{
  try {
   const url = new URL(req.url,'http://localhost');
+  if(url.pathname.startsWith('/evidence/')){
+   return await require(path.join(root,'lib','storage.cjs')).serve(req,res);
+  }
   if(url.pathname.startsWith('/api/')){
    const name=url.pathname.slice(5);
    if(!apis.has(name)){res.writeHead(404);return res.end('Not found');}
